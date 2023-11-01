@@ -8,9 +8,56 @@ window.onload = function () {
 
         boton.addEventListener("mouseup", quitarSombra);
 
-        boton.addEventListener("click", numeros)
-
+        boton.addEventListener("click", numeros);
     }
+
+    document.body.addEventListener("keydown", teclas);
+
+
+        function teclas(evento) {
+            // en la variable tecla guardamos la tecla que pulsamos con el atributo key
+            const tecla = evento.key;
+            // el \d dentro de la expresion regular impide introducir en la pantalla
+            // caracteres
+            let antiletra = /^\d$/;
+            if (antiletra.test(tecla)) { /*dentro de este if hacemos lo mismo que el
+            default del switch case si hay un 0 en la pantalla lo sustituimos por otro numero
+            sino concatenamos los numeros
+            SI POR EJEMPLO TENEMOS 12340 NO PARARIA Y SEGUIRIA CONCATENANDO*/
+                if (pantalla.value === "0") {
+                    pantalla.value = tecla;
+                }else {
+                    pantalla.value += tecla;
+                }
+            }
+            let operaciones = /^[+\-/*.]$/;
+            if (operaciones.test(tecla)) { /*dentro de este if hacemos lo mismo que el
+            default del switch case si hay un 0 en la pantalla lo sustituimos por otro numero
+            sino concatenamos los numeros
+            SI POR EJEMPLO TENEMOS 12340 NO PARARIA Y SEGUIRIA CONCATENANDO*/
+                if (pantalla.value === "0") {
+                    pantalla.value = tecla;
+                }else {
+                    pantalla.value += tecla;
+                }
+            }
+            /*Las teclas del teclado tienen un comportamiento curioso, si hacemos un
+            console.log(evento) al tener un keydown nos mostrara la informacion de la tecla
+            que hayamos pulsado, todas tienen sus nombre y codigo especificos
+            el del retroceso es el Backspace y cuando pulsemos esta tecla tendrá el mismo
+            comportamiento que el boton de «, eliminar numeros de derecha a izquierda*/
+            if (tecla === "Backspace") {
+                pantalla.value = pantalla.value.slice(0, -1);
+                if (pantalla.value === ""){
+                    pantalla.value = "0";
+                }
+            }
+            // lo mismo con el backspace pero ahora con el intro (Enter)
+            if (tecla === "Enter") {
+                pantalla.value = eval(pantalla.value);
+            }
+        }
+
     function anyadirSombra() {
         this.classList.add("sombra")
     }
@@ -18,16 +65,17 @@ window.onload = function () {
     function quitarSombra() {
         this.classList.remove("sombra")
     }
-    
-    function porcentaje() {
-        // El 1% de 4 = 4*(1/100) = 4*0.01 = 0.04
-        pantalla.value.split("%");
-        pantalla.value += "%";
-        //let calculo =    pantalla.value.at(-1)
-        console.log(pantalla.value.at(0))
 
+    function calcularPorcentaje() {
+        let expresion = pantalla.value;
+        let partes = expresion.split("%");
+
+        if (partes.length === 2) {
+            let numero1 = partes[0];
+            let numero2 = partes[1];
+            pantalla.value = (numero1 * numero2) / 100;
+        }
     }
-
 
     function numeros() {
         let valorBoton = this.innerText;
@@ -46,12 +94,16 @@ window.onload = function () {
                 }
                 break;
             case "%":
-                porcentaje();
+               pantalla.value += "%";
                 break;
             case "C":
                 pantalla.value = "0"
                 break;
             case "=":
+                if (pantalla.value.includes("%")){
+                    calcularPorcentaje();
+                }
+
                 if (pantalla.value.includes("x")) { /*comprobamos si hay simbolo de
                 multiplicar, dividimos en las partes desde la x a la izquierda y a la derecha
                 si la medida de la pantalla es 2 entonces hacemos la multiplicacion
@@ -69,8 +121,7 @@ window.onload = function () {
                     }
                 }else{ /*dado que la funcion eval no contempla la multiplicacion
                 necesitamos apañar un poco el igual*/
-                    pantalla.value = eval( pantalla.value);
-
+                    pantalla.value = eval(pantalla.value);
                 }
                 break;
             case "()":
