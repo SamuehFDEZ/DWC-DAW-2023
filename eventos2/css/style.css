@@ -1,0 +1,35 @@
+#mas{
+    border-radius: 50%;
+    background-color: rgb(23, 207, 131);
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    position:fixed;
+    right: 0;
+    top: 0;
+}
+
+#mas:hover{
+    background-color: rgb(0, 252, 13);    
+}
+
+#edit{
+    width: 35px;
+    height: 35px;
+    background-color: rgb(99, 233, 99);
+    border: 1px solid rgb(95, 180, 95);
+}
+
+#x{
+    width: 35px;
+    height: 35px;
+    background-color: rgb(230, 100, 100);
+    font-size: 20px; 
+}
+
+#contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+
+
+  #page{
+    margin: 30px auto;
+    width: 60em;
+    background-color: #ccc;
+    box-shadow: 1px 1px 1px 1px;
+    border: 1px solid black;
+  }
+
+  form {
+    width: 500px;
+    margin: 0 auto;
+    background-color: #ccc;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 35px;
+    color: white;
+  }
+
+  input{
+    width: 100px;
+    height: 15px;
+    border: 1px solid #000;
+  }
+
+  #contButt{
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  #button{
+    width: 100px;
+    height: 30px;
+    background-color: blue;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="rePassword"],
+  input[type="text"] {
+    width: 100%;
+    border: 1px solid #000;
+    padding: 5px;
+    margin-bottom: 10px; /* Margen inferior para separar los campos */
+  }
+
+</style>
+
+<body>
+<div id="page">
+  <div id="header">
+    <h1>Formulario total</h1>
+  </div>
+  <div id="form">
+    <form>
+      <label>Nombre:</label>
+      <input type="text"  id="nombre" required ><br><br>
+      <label>Apellidos:</label>
+      <input type="text" id="apellidos" required><br><br>
+      <label>e-mail:</label>
+      <input type="email" id="email" required><br><br>
+      <label>DNI:</label>
+      <input type="text" id="dni" required> <br><br>
+      <label>Password:</label>
+      <input type="password" id="password" required><br><br>
+      <label>Repetir Password:</label>
+      <input type="password" id="rePassword" required><br><br>
+      <label>IP Equipo:</label>
+      <input type="text" id="ip" required><br><br>
+      <div id="contButt">
+        <input type="button" id="button" value="Enviar"><br><br>
+      </div>
+    </form>
+  </div>
+
+</div>
+</body>
+<script>
+  const nombre = document.getElementById("nombre");
+  const apellidos = document.getElementById("apellidos");
+  const email = document.getElementById("email");
+  const dni = document.getElementById("dni");
+  const password = document.getElementById("password");
+  const rePassword = document.getElementById("rePassword");
+  const ip = document.getElementById("ip");
+  const boton = document.getElementById("button");
+
+  let regExpNombre = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/;
+
+    nombre.addEventListener("blur", () => {
+      if (nombre.value.match(regExpNombre)==null){
+        alert("Nombre no válido");
+      }
+      else {
+        alert("Nombre válido");
+      }
+    });
+
+
+  let regExpApellidos = /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/;
+
+    apellidos.addEventListener("blur", () => {
+      if (apellidos.value.match(regExpApellidos)==null){
+        alert("Apellidos no válidos");
+      }
+      else {
+        alert("Apellido válido");
+      }
+    });
+
+
+  let regExpEmail = /^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}$/;
+
+    email.addEventListener("blur", () => {
+      if (email.value.match(regExpEmail)==null){
+        alert("email no válido");
+      }
+      else {
+        alert("email válido");
+
+      }
+    });
+
+
+  let regExpDni = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/i;
+
+    dni.addEventListener("blur", () => {
+      if (dni.value.match(regExpDni)==null){
+        alert("dni no válido");
+      }
+      else {
+        alert("dni válido");
+
+      }
+    });
+
+
+    password.addEventListener("blur", ()=>{
+      if (password.value.length < 8){
+        alert("Contraseña débil");
+      }
+      else{
+        alert("Contraseña fuerte");
+      }
+    });
+
+
+    rePassword.addEventListener("blur", ()=>{
+      if (rePassword.value.length === 0){
+        alert("Debes repetir la contraseña");
+        return;
+      }
+
+      if (password.value === rePassword.value){
+        alert("Contraseña coincide");
+      }
+      else{
+        alert("Error!! Contraseña no coincide");
+      }
+    });
+
+
+  let regExpIp = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+    ip.addEventListener("blur", ()=>{
+      if (ip.value.match(regExpIp)==null){
+        alert("ip no válida");
+      }
+      else {
+        alert("ip válido");
+
+      }
+    });
+
+
+  boton.addEventListener("click", ()=> {
+    if (ip.value.match(regExpIp)!=null &&
+            nombre.value.match(regExpNombre)!=null &&
+            apellidos.value.match(regExpApellidos)!=null &&
+            email.value.match(regExpEmail)!=null &&
+            dni.value.match(regExpDni)!=null
+            && password.length !== 0
+            && rePassword.length !== 0){
+      alert("Todo correcto");
+    }
+    else{
+      alert("Error!!")
+    }
+  });
+
+</script>
+</html>
