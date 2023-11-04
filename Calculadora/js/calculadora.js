@@ -77,21 +77,57 @@ window.onload = function () {
         }
     }
 
+    function retroceder() {
+        /*aqui damos de valor al valor de la pantalla quitarle un numero
+                basicamente es lo que hace el slice, dependiendo de los parametros te quitará
+                 uno o mas numeros del string, en nuestro caso de la pantalla
+                 si por ejemplo en vez de 0, -1 ponemos -2 quitará de dos en dos
+                 lo mismo si cambiamos el 0 por otros numeros*/
+        pantalla.value = pantalla.value.slice(0, -1);
+        /*ademas si en la pantalla no queda nada, pondra un 0*/
+        if (pantalla.value === ""){
+            pantalla.value = "0";
+        }
+    }
+
+    function resultado() {
+        if (pantalla.value.includes("%")){
+            calcularPorcentaje();
+        }
+
+        if (pantalla.value.includes("x")) { /*comprobamos si hay simbolo de
+                multiplicar, dividimos en las partes desde la x a la izquierda y a la derecha
+                si la medida de la pantalla es 2 entonces hacemos la multiplicacion
+                a esto ultimo se refiere a que si tuvieramos: 1x, no haria nada,
+                 de hecho te lo toma como un 0, si no pones nada en el lado derecho
+                 de la x te lo toma como 0*/
+            //PROBLEMA -----> NO SE PUEDE CONCATENAR CON UNA SUMA
+            // no puedes hacer 5x6+5 lo tienes que hacer por separado
+            //sin embargo la suma y resta si
+            let partes = pantalla.value.split("x");
+            if (partes.length === 2) {
+                let num1 = partes[0];
+                let num2 = partes[1];
+                pantalla.value = num1 * num2;
+            }
+        }else{ /*dado que la funcion eval no contempla la multiplicacion
+                necesitamos apañar un poco el igual*/
+            pantalla.value = eval(pantalla.value);
+        }
+    }
+
+    function parentesis() {
+        //redondea el valor de la pantalla entre parentesis
+        // mediante los template literals (plantillas literales)
+        pantalla.value = `(${pantalla.value})`;
+    }
+
     function numeros() {
         let valorBoton = this.innerText;
 
         switch (valorBoton) {
             case "«":
-                /*aqui damos de valor al valor de la pantalla quitarle un numero
-                 basicamente es lo que hace el slice, dependiendo de los parametros te quitará
-                  uno o mas numeros del string, en nuestro caso de la pantalla
-                  si por ejemplo en vez de 0, -1 ponemos -2 quitará de dos en dos
-                  lo mismo si cambiamos el 0 por otros numeros*/
-                pantalla.value = pantalla.value.slice(0, -1);
-                /*ademas si en la pantalla no queda nada, pondra un 0*/
-                if (pantalla.value === ""){
-                    pantalla.value = "0";
-                }
+               retroceder();
                 break;
             case "%":
                pantalla.value += "%";
@@ -100,34 +136,10 @@ window.onload = function () {
                 pantalla.value = "0"
                 break;
             case "=":
-                if (pantalla.value.includes("%")){
-                    calcularPorcentaje();
-                }
-
-                if (pantalla.value.includes("x")) { /*comprobamos si hay simbolo de
-                multiplicar, dividimos en las partes desde la x a la izquierda y a la derecha
-                si la medida de la pantalla es 2 entonces hacemos la multiplicacion
-                a esto ultimo se refiere a que si tuvieramos: 1x, no haria nada,
-                 de hecho te lo toma como un 0, si no pones nada en el lado derecho
-                 de la x te lo toma como 0*/
-                    //PROBLEMA -----> NO SE PUEDE CONCATENAR CON UNA SUMA
-                    // no puedes hacer 5x6+5 lo tienes que hacer por separado
-                    //sin embargo la suma y resta si
-                    let partes = pantalla.value.split("x");
-                    if (partes.length === 2) {
-                        let num1 = partes[0];
-                        let num2 = partes[1];
-                        pantalla.value = num1 * num2;
-                    }
-                }else{ /*dado que la funcion eval no contempla la multiplicacion
-                necesitamos apañar un poco el igual*/
-                    pantalla.value = eval(pantalla.value);
-                }
+               resultado();
                 break;
             case "()":
-                //redondea el valor de la pantalla entre parentesis
-                // mediante los template literals (plantillas literales)
-               pantalla.value = `(${pantalla.value})`;
+               parentesis();
                 break;
 
             default:
