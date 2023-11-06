@@ -13,7 +13,6 @@ window.onload = function () {
 
     document.body.addEventListener("keydown", teclas);
 
-
         function teclas(evento) {
             // en la variable tecla guardamos la tecla que pulsamos con el atributo key
             const tecla = evento.key;
@@ -37,7 +36,7 @@ window.onload = function () {
             SI POR EJEMPLO TENEMOS 12340 NO PARARIA Y SEGUIRIA CONCATENANDO*/
                 if (pantalla.value === "0") {
                     pantalla.value = tecla;
-                }else {
+                } else {
                     pantalla.value += tecla;
                 }
             }
