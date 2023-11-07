@@ -219,10 +219,11 @@ h1 {
     border-radius: 5px;
     margin: 15px 5px 5px 5px;
     text-align: center;
+    display: inline-block;
+
 
 }
 
 .noelEscondido{
     display: none;
 }
-

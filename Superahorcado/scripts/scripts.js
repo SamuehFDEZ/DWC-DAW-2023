@@ -15,29 +15,18 @@ window.onload = function() {
             lastLetra.innerText = tecla.innerText;
         }
 
-        /*// Select first child element:
-        const element = document.getElementById("myList").children[0];
-
-// Create a new text node:
-        const newNode = document.createTextNode("Water");
-
-// Replace the text node:
-        element.replaceChild(newNode, element.childNodes[0]);*/
-
         function anyadirLetra() {
-
-           /* const coleccionLetras = document.getElementById("coleccionLetras");
-            coleccionLetras.classList.add("nuevoTexto");
-            coleccionLetras.innerText += tecla.innerText;*/
-
-            const letrasUsadas = document.getElementById("letrasUsadas");
-            const letras = document.createElement("div");
-            letras.classList.add("nuevoTexto");
-            letras.textContent += tecla.innerText;
-            letrasUsadas.appendChild(letras);
+            /*Obtenemos el div del html
+            * creamos uno dinamicamente
+            * a ese div le añadimos la clase css de nuevoTexto, como texto,
+            * le asignamos el del boton con el this, y finalmente se lo añadimos al div padre*/
+            const coleccionLetras = document.getElementById("coleccionLetras");
+            const nuevaLetra = document.createElement("div");
+            nuevaLetra.classList.add("nuevoTexto");
+            nuevaLetra.innerText = this.innerText;
+            coleccionLetras.appendChild(nuevaLetra);
         }
     }
-
 
     const extremidades = document.getElementsByClassName("extremidad");
 
