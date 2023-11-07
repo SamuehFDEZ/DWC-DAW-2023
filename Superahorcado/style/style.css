@@ -107,6 +107,8 @@ h1 {
     height: 120px;
     background-color:whitesmoke;
     margin-bottom:10px;
+    overflow: hidden;
+
 }
 #letrasUsadas {
     font-family:verdana, serif;
@@ -115,6 +117,9 @@ h1 {
     width:100%;
     height: calc(100% - 252px);
     background-color:whitesmoke;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column wrap;
 }
 
 .extremidad {
@@ -202,5 +207,22 @@ h1 {
     background-image:url('../img/pieDer.png');
     z-index:2;
 
+}
+
+.nuevoTexto{
+    font-family: christmas, serif;
+    color: red;
+    font-size: 25px;
+    border: 0.15em solid black;
+    width: 28px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 15px 5px 5px 5px;
+    text-align: center;
+
+}
+
+.noelEscondido{
+    display: none;
 }
 
