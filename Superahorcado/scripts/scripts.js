@@ -1,6 +1,6 @@
 window.onload = function() {
     const teclado = document.getElementById("teclado");
-    for(let teclaActual = 65; teclaActual <= 90;teclaActual++) {
+    for (let teclaActual = 65; teclaActual <= 90; teclaActual++) {
         const tecla = document.createElement("button");
         tecla.innerText = String.fromCharCode(teclaActual);
         tecla.classList.add("tecla");
@@ -8,6 +8,14 @@ window.onload = function() {
 
         tecla.addEventListener("click", anyadirLetra);
         tecla.addEventListener("click", ultimaLetra)
+        tecla.addEventListener("click", nombrePelicula);
+
+
+        function nombrePelicula() {
+
+
+
+        }
 
         function ultimaLetra() {
             const lastLetra = document.getElementById("ultimaLetra");
@@ -27,13 +35,6 @@ window.onload = function() {
             coleccionLetras.appendChild(nuevaLetra);
         }
     }
-
-    const extremidades = document.getElementsByClassName("extremidad");
-
-    for (const extremidad of extremidades) {
-        extremidad.classList.add("papanoelEscondido");
-    }
-
     const peliculas = ["El espíritu de la Navidad",
         "Elf",
         "The Polar Express",
@@ -41,13 +42,31 @@ window.onload = function() {
         "El Grinch"
     ];
 
-    const aleatorios = peliculas[Math.floor(Math.random() * peliculas.length)];
-    const titulo = document.getElementById("titulo");
+    const cabeza = document.getElementById("cabeza");
 
+    const titulo = document.getElementById("titulo");
+    const aleatorios = peliculas[Math.floor(Math.random() * peliculas.length)];
     for (const aleatorio of aleatorios) {
-        const lineas =document.createElement("span");
-        lineas.innerHTML = "_ ";
-        titulo.appendChild(lineas);
+        if (aleatorio === " ") {
+            const espacio = document.createElement("span");
+            espacio.innerHTML = "&nbsp; ";
+            titulo.appendChild(espacio);
+        } else {
+            const linea = document.createElement("span");
+            linea.innerHTML = "_ ";
+            titulo.appendChild(linea);
+
+        }
     }
     console.log(aleatorios);
+    console.log(aleatorios.innerText)
+
+
+
+
+    const extremidades = document.getElementsByClassName("extremidad");
+
+    for (const extremidad of extremidades) {
+        extremidad.classList.add("papanoelEscondido");
+    }
 }
