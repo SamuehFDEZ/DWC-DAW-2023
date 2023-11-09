@@ -1,6 +1,3 @@
-let peliculaASolucionar = [];
-
-
 window.onload = function() {
     const teclado = document.getElementById("teclado");
     const peliculas = ["El espíritu de la Navidad",
@@ -28,10 +25,10 @@ window.onload = function() {
         }
 
         function anyadirLetra() {
-            /*Obtenemos el div del html
+            /*!*Obtenemos el div del html
             * creamos uno dinamicamente
             * a ese div le añadimos la clase css de nuevoTexto, como texto,
-            * le asignamos el del boton con el this, y finalmente se lo añadimos al div padre*/
+            * le asignamos el del boton con el this, y finalmente se lo añadimos al div padre*!*/
             const coleccionLetras = document.getElementById("coleccionLetras");
             const nuevaLetra = document.createElement("div");
             nuevaLetra.classList.add("nuevoTexto");
@@ -43,7 +40,6 @@ window.onload = function() {
 
 
     const aleatorios = peliculas[Math.floor(Math.random() * peliculas.length)].toUpperCase();
-
     const titulo = document.getElementById("titulo");
     for (const aleatorio of aleatorios) {
         if (aleatorio === " ") {
@@ -56,27 +52,8 @@ window.onload = function() {
             linea.innerHTML = "_ ";
             titulo.appendChild(linea);
             linea.className = aleatorio;
-            //console.log(aleatorios.includes(this.innerText));
-            peliculaASolucionar.push(linea);
         }
     }
-
-    console.log(peliculaASolucionar);
-    function nombrePelicula() {
-        for (const aleatorio of aleatorios) {
-            if (aleatorios.includes(this.innerText)){
-                let linea = document.createElement("span");
-                linea.innerHTML = "_ ";
-                linea.innerHTML.replaceAll("_ ", this.innerText);
-            }
-        }
-
-        console.log(aleatorios.includes(this.innerText));
-
-    }
-
-    console.log(aleatorios);
-
 
     const extremidades = document.getElementsByClassName("extremidad");
 
@@ -84,6 +61,20 @@ window.onload = function() {
         extremidad.classList.add("papanoelEscondido");
     }
 
+    console.log(aleatorios)
+
+    function nombrePelicula() {
+        const spans = document.getElementsByTagName("span");
+        let letra = this.innerText;
+        for (let i = 0; i < aleatorios.length; i++) {
+            if (aleatorios[i] === letra) {
+                spans[i].textContent = letra;
+            }
+           /* else{
+                for (const extremidad of extremidades) {
+                    extremidades.classList.remove("papanoelEscondido");
+                }
+            }*/
+        }
+    }
 }
-
-
