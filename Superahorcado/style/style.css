@@ -224,6 +224,92 @@ h1 {
 
 }
 
+.cartelRojo{
+    position: fixed;
+    top: 5em;
+    left: 30em;
+    width: 50%;
+    height: 80%;
+    background-color: red;
+    z-index: 2; /* Ajusta este valor según sea necesario */
+    border: 2px solid black;
+    border-radius: 25px;
+    box-shadow: 0 0 20px 20px white;
+    text-align: center;
+
+}
+
+.cartelVerde{
+    position: fixed;
+    top: 5em;
+    left: 30em;
+    width: 50%;
+    height: 80%;
+    background-color: lawngreen;
+    z-index: 2; /* Ajusta este valor según sea necesario */
+    border: 2px solid black;
+    border-radius: 25px;
+    box-shadow: 0 0 20px 20px white;
+    text-align: center;
+
+}
+
+.labelGG{
+    position: relative;
+    font-family: christmas, serif;
+    font-size: 90px;
+    color: white;
+    font-weight: bold;
+    top: 1em;
+    left: 50px;
+
+}
+
+.labelPerdedor{
+    position: relative;
+    font-family: christmas, serif;
+    font-size: 90px;
+    color: white;
+    font-weight: bold;
+    top: 1em;
+    left: 50px;
+
+}
+
+.botonPerdedor{
+    position: relative;
+    font-family: christmas, serif;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+    top: 40em;
+    right: 380px;
+    width: 100px;
+    height: 40px;
+    box-shadow: 0 0 20px 2px white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
+.botonGG{
+    position: relative;
+    font-family: christmas, serif;
+    font-size: 15px;
+    color: black;
+    font-weight: bold;
+    top: 40em;
+    right: 182px;
+    width: 100px;
+    height: 40px;
+    box-shadow: 0 0 20px 2px white;
+    border: 2px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+
 .noelEscondido{
     display: none;
 }
