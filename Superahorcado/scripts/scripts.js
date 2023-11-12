@@ -50,8 +50,8 @@ YA ESTAN LAS LETRAS NO LAS MOTRAMOS---------------------------------------------
         }
     }
 
-/*------PARA GENERAR LAS PELICULAS DEL ARRAY ALEATORIOAS Y MOSTRAR SUS HUECOS QUE LUEGO SERAN------------
------------------------------RELLENADOS POR LAS LETRAS---------------------------------------------------*/
+    /*------PARA GENERAR LAS PELICULAS DEL ARRAY ALEATORIOAS Y MOSTRAR SUS HUECOS QUE LUEGO SERAN------------
+    -----------------------------RELLENADOS POR LAS LETRAS---------------------------------------------------*/
     const aleatorios = peliculas[Math.floor(Math.random() * peliculas.length)].toUpperCase();
     const titulo = document.getElementById("titulo");
     for (const aleatorio of aleatorios) {
@@ -94,8 +94,8 @@ YA ESTAN LAS LETRAS NO LAS MOTRAMOS---------------------------------------------
                 puntuacionActual -= 100;
             }
         }
-
         // Actualiza la puntuación en el elemento HTML
+        //mantiene el formato de 00000
         numeros.textContent = puntuacionActual.toString().padStart(5, '0');
     }
 
