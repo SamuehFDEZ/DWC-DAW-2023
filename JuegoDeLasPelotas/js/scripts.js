@@ -19,7 +19,7 @@ let anchoPantalla;
 let altoPantalla;
 
 //Selector de numero de pelotas por partida
-let numeroPelotas = 100;
+let numeroPelotas = 0;
 
 //Modos de juego
 let modoTodas = false;
@@ -32,7 +32,8 @@ let fallos = 0;
 let aciertos = 0;
 
 
-window.onload = function(){
+window.onload = function () {
+    numeroPelotas = document.getElementById("cantidad");
 
     //Resolucion pantalla
     anchoPantalla = screen.width;
@@ -48,7 +49,7 @@ window.onload = function(){
     queEliminar = document.getElementById("queEliminar");
 
     jugar.addEventListener("click", comenzar);
-    cronometro.innerText="00:00:00"
+    cronometro.innerText = "00:00:00"
 
     botonesFormulario();
 }
@@ -56,7 +57,7 @@ window.onload = function(){
 //Funcion para el funcionamiento de los botones de modo
 function botonesFormulario() {
     let botones = document.getElementById("queEliminar").getElementsByTagName("div");
-    for(let i = 0 ; i < botones.length; i++) {
+    for (let i = 0; i < botones.length; i++) {
         botones[i].addEventListener("click", seleccionar);
     }
 }
@@ -64,7 +65,7 @@ function botonesFormulario() {
 //Funcion para colorear los botones de modo
 function seleccionar() {
     let botones = document.getElementById("queEliminar").getElementsByTagName("div");
-    for(let i = 0 ; i < botones.length; i++) {
+    for (let i = 0; i < botones.length; i++) {
         botones[i].classList.toggle("seleccionado");
     }
 }
@@ -85,22 +86,20 @@ function avisoColor() {
     modo.appendChild(texto);
     modo.appendChild(pelota);
     modo.appendChild(boton);
+    modoUna = true;
 }
-
 /*************************************CODIGO A COMPLETAR****************************************/
 function comenzar() {
     /**Seleccionamos el numero de pelotas.
     Comprobamos el modo de juego y, o bien vamos a avisoColor() que nos genera un color que eliminar, o bien vamos
     directamente a generarPelotas()**/
-    const numPelotas = document.getElementById("cantidad");
-
-    console.log(numPelotas.value);
-
-    if (modoTodas){
+    let modoJuego = document.getElementsByClassName("seleccionado")[0].id;
+    if (modoJuego === "modoTodas") {
+        generarPelotas();
+        modoTodas = true;
+    } else {
         avisoColor();
     }
-
-
 }
 
 
@@ -114,69 +113,145 @@ function generarPelotas() {
     del tablero.
     Comienza a andar el cronometro**/
     cronometrar();
+    if (modoUna) {
+        modo.classList.add("ocultar");
+        for (let i = 0; i < numeroPelotas.value; i++) {
+            crearPelota();
+        }
+    } else {
+        modo.classList.add("ocultar");
+        for (let i = 0; i < numeroPelotas.value; i++) {
+            crearPelota();
+        }
+    }
+}
+
+function pintar() {
+    if (modoUna) {
+        if (color === "rojo") {
+            colorcete = "rgb(" + 0 + ", " + aleatorio(0, 255) + ", " + aleatorio(0, 255) + ")";
+        } else if (color === "verde") {
+            colorcete = "rgb(" + aleatorio(0, 255) + ", " + 0 + ", " + aleatorio(0, 255) + ")";
+        } else if (color === "azul") {
+            colorcete = "rgb(" + aleatorio(0, 255) + ", " + aleatorio(0, 255) + ", " + 0 + ")";
+        }
+        return colorcete;
+    } else {
+        colorcete = "rgb(" + aleatorio(0, 255) + " " + aleatorio(0, 255) + " " + aleatorio(0, 255) + ")";
+        return colorcete;
+    }
+}
+
+let contador = 0;
+function darColor(pelota) {
+    let mitad = numeroPelotas.value / 2;
+    if (contador < mitad) {
+        pelota.style.background = pintar();
+        contador++;
+    } else {
+        pelota.classList.add(color);
+    }
 }
 
 //Funcion que crea cada pelota con los parametros ancho, alto y posicion de forma aletoria y la devuelve.
 function crearPelota() {
-    let pelota;
+    let pelota = document.createElement("div");
+    let top = aleatorio(0, 80);
+    let left = aleatorio(0, 80);
+    let random = aleatorio(10, 200);
+    pelota.style.top = top + "%";
+    pelota.style.left = left + "%";
+    pelota.style.width = random;
+    pelota.style.height = random;
+    pelota.classList.add("pelota");
+    tablero.appendChild(pelota);
+    pelota.addEventListener("dblclick", eliminarPelota);
+    if (modoUna) {
+        darColor(pelota);
+    } else {
+        pelota.style.background = pintar();
+    }
     return pelota;
 }
 
 function eliminarPelota() {
     //Eliminamos la pelota
     //Sumamos aciertos en funcion del modo
+    this.classList.add("ocultar");
+    let aciertoPantalla = document.getElementById("aciertos");
+    if (modoUna) {
+        if (!this.classList.contains(color)) {
+            fallos = document.getElementById("fallos");
+            fallos.innerText++;
+            cuentaPelotas++;
+        } else {
+            aciertoPantalla.innerText++;
+            aciertos++;
+            cuentaPelotas++;
+            console.log(aciertos);
+        }
+        if (aciertos >= numeroPelotas.value / 2) {
+            finPartida();
+        }
+    } else {
+        aciertoPantalla.innerText++;
+        cuentaPelotas++;
+        if (cuentaPelotas >= numeroPelotas.value) {
+            finPartida();
+        }
+    }
 }
 
 //Funcion que convierte a segundos en funcion de lo que indiquen las variables horas, minutos y segundos.
 function convertirASegundos() {
-
+    let resultado = segundos + (minutos * 60) + (horas * 3600);
+    return resultado;
 }
 
 /*********************************************FIN CODIGO A COMPLETAR**************************/
-
 function finPartida() {
     parar();
     let mensajeFinal;
-    if(modoUna) mensajeFinal = "Has eliminado " + cuentaPelotas + " pelotas, " + aciertos + " de color " + color + ", en " + convertirASegundos() + " segundos";
+    if (modoUna) mensajeFinal = "Has eliminado " + cuentaPelotas + " pelotas, " + aciertos + " de color " + color + ", en " + convertirASegundos() + " segundos";
     else mensajeFinal = "Has eliminado " + cuentaPelotas + " pelotas, en " + convertirASegundos() + " segundos";
     tablero.innerHTML = mensajeFinal;
 }
 
-function aleatorio(max,min) {
+function aleatorio(max, min) {
     if (min) return Math.round(Math.random() * (max - min) + min);
     else return Math.round(Math.random() * max);
 }
 
 /**********************CRONOMETRO***************************/
 //Comienza a cronometrar
-function cronometrar(){
+function cronometrar() {
     crearReloj();
-    intervalo = setInterval(crearReloj,1000);
+    intervalo = setInterval(crearReloj, 1000);
 }
 
-function crearReloj(){
+function crearReloj() {
     let hAux, mAux, sAux;
     segundos++;
-    if (segundos>59) {
+    if (segundos > 59) {
         minutos++;
-        segundos=0;
+        segundos = 0;
     }
-    if (minutos>59) {
+    if (minutos > 59) {
         horas++;
-        minutos=0;
+        minutos = 0;
     }
-    if (horas>24) horas=0;
+    if (horas > 24) horas = 0;
 
-    if (segundos<10) sAux="0"+segundos;
-    else sAux=segundos;
-    if (minutos<10) mAux="0"+minutos;
-    else mAux=minutos;
-    if (horas<10) hAux="0"+horas;
-    else hAux=horas;
+    if (segundos < 10) sAux = "0" + segundos;
+    else sAux = segundos;
+    if (minutos < 10) mAux = "0" + minutos;
+    else mAux = minutos;
+    if (horas < 10) hAux = "0" + horas;
+    else hAux = horas;
 
     cronometro.innerText = hAux + ":" + mAux + ":" + sAux;
 }
 //Detiene el cronometro
-function parar(){
+function parar() {
     clearInterval(intervalo);
 }
