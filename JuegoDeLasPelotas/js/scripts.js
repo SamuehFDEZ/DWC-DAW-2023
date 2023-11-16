@@ -204,8 +204,7 @@ function eliminarPelota() {
 
 //Funcion que convierte a segundos en funcion de lo que indiquen las variables horas, minutos y segundos.
 function convertirASegundos() {
-    let resultado = segundos + (minutos * 60) + (horas * 3600);
-    return resultado;
+    return  segundos + (minutos * 60) + (horas * 3600);
 }
 
 /*********************************************FIN CODIGO A COMPLETAR**************************/
