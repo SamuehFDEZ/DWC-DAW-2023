@@ -36,16 +36,16 @@ function cargarImg() {
     let grupoJugadores = document.getElementById("selectorJugadores");
     let jugadores = document.getElementById("jugadores");
     jugadores.innerHTML = "";// cada vez que invoquemos a la funcion, las imagenes no se acumularan
-    if (document.querySelector("img")!== null){
+    /*if (document.querySelector("img")!== null){
         document.querySelector("img").remove();
-    }
+    }*/
     if (grupoJugadores !== ''){
         for (let i = 1; i <= numeroJugadores; i++) {
 
             //jugadores.innerHTML += `<img src=./img/${this.value}/${[i]}.jpg`
 
             let jugadoresImg = document.createElement("img");
-            jugadoresImg.addEventListener("dblclick", elegirEquipo);
+            jugadoresImg.addEventListener("drop", elegirEquipo);
             jugadoresImg.classList.add("jugador");
             jugadoresImg.src="img/"+grupoJugadores.value+"/"+i+".jpg";
             jugadores.appendChild(jugadoresImg);
@@ -57,29 +57,20 @@ function cargarImg() {
 * ya sea equipo1 o equipo2, aqui controlariamos si hay mas de 11 en un equipo que no se
 * puede*/
 function elegirEquipo() {
-    let imagen = this;
-    let campos = document.getElementsByClassName("campo");
-    let jugadores = document.getElementById("jugadores");
+
     let cantidadJugadores = document.getElementsByClassName("cantidadJugadores");
-    let selectorEquipo = document.getElementsByClassName("selectorEquipo");
     /*Con esto pretendia que si en el select esta seleccionado equipo 1 las imagenes se pasen
     * al lado izquierdo, lo mismo para el lado derecho, solo funciona para el lado derecho*/
-    /*jugadores.removeChild(imagen);
-    campos[0].appendChild(imagen);
-    cantidadJugadores[0].innerHTML++;*/
-    if (selectorEquipo.value === "equipo1"){
-        jugadores.removeEventListener("dblclick", elegirEquipo);
-        jugadores.removeChild(imagen);
-        campos[0].appendChild(imagen);
+
+    this.removeEventListener("dblclick", elegirEquipo);
+    if (selectorEquipo.value == "equipo1"){
+        equipo1.getElementsByClassName("campo")[0].appendChild(this);
         cantidadJugadores[0].innerHTML++;
-    }else if(selectorEquipo.value === "equipo2"){
-        jugadores.removeEventListener("dblclick", elegirEquipo);
-        jugadores.removeChild(imagen);
-        campos[1].appendChild(imagen);
+    }else if(selectorEquipo.value == "equipo2"){
+        equipo2.getElementsByClassName("campo")[0].appendChild(this);
         cantidadJugadores[1].innerHTML++;
     }
-
-    else if (cantidadJugadores[1].innerHTML >= 11){
+    if (cantidadJugadores[1].innerHTML >= 11){
         maximoJugadores();
         cantidadJugadores[1].innerHTML = 11;
     }
@@ -87,8 +78,15 @@ function elegirEquipo() {
         maximoJugadores();
         cantidadJugadores[0].innerHTML = 11;
     }
-}
 
+    equipo1.addEventListener("drop", ()=>{
+        equipo1.appendChild(this)
+    });
+
+    equipo2.addEventListener("drop", ()=>{
+        equipo2.appendChild(this)
+    });
+}
 function cargarJugadorSelect() {
     //obtenemos el select de los jugadores
     const selectorJugadores = document.getElementById("selectorJugadores");

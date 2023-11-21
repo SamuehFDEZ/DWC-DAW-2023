@@ -105,6 +105,14 @@ select, button {
 
 }
 
+#drop_zone {
+    border: 5px solid blue;
+    width: 200px;
+    height: 100px;
+}
+
+
+
 .error {
     background-color: red !important;
 }
