@@ -64,14 +64,16 @@ function elegirEquipo() {
     let selectorEquipo = document.getElementsByClassName("selectorEquipo");
     /*Con esto pretendia que si en el select esta seleccionado equipo 1 las imagenes se pasen
     * al lado izquierdo, lo mismo para el lado derecho, solo funciona para el lado derecho*/
-    jugadores.removeChild(imagen);
+    /*jugadores.removeChild(imagen);
     campos[0].appendChild(imagen);
-    cantidadJugadores[0].innerHTML++;
+    cantidadJugadores[0].innerHTML++;*/
     if (selectorEquipo.value === "equipo1"){
+        jugadores.removeEventListener("dblclick", elegirEquipo);
         jugadores.removeChild(imagen);
         campos[0].appendChild(imagen);
         cantidadJugadores[0].innerHTML++;
     }else if(selectorEquipo.value === "equipo2"){
+        jugadores.removeEventListener("dblclick", elegirEquipo);
         jugadores.removeChild(imagen);
         campos[1].appendChild(imagen);
         cantidadJugadores[1].innerHTML++;
