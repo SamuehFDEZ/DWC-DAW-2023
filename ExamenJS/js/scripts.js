@@ -41,6 +41,9 @@ function cargarImg() {
     }
     if (grupoJugadores !== ''){
         for (let i = 1; i <= numeroJugadores; i++) {
+
+            //jugadores.innerHTML += `<img src=./img/${this.value}/${[i]}.jpg`
+
             let jugadoresImg = document.createElement("img");
             jugadoresImg.addEventListener("dblclick", elegirEquipo);
             jugadoresImg.classList.add("jugador");
@@ -59,18 +62,16 @@ function elegirEquipo() {
     let jugadores = document.getElementById("jugadores");
     let cantidadJugadores = document.getElementsByClassName("cantidadJugadores");
     let selectorEquipo = document.getElementsByClassName("selectorEquipo");
-
-
     /*Con esto pretendia que si en el select esta seleccionado equipo 1 las imagenes se pasen
     * al lado izquierdo, lo mismo para el lado derecho, solo funciona para el lado derecho*/
     jugadores.removeChild(imagen);
-    campos[1].appendChild(imagen);
-    cantidadJugadores[1].innerHTML++;
-    if (selectorEquipo.innerHTML === "Equipo1"){
+    campos[0].appendChild(imagen);
+    cantidadJugadores[0].innerHTML++;
+    if (selectorEquipo.value === "equipo1"){
         jugadores.removeChild(imagen);
         campos[0].appendChild(imagen);
         cantidadJugadores[0].innerHTML++;
-    }else if(selectorEquipo.innerHTML === "Equipo2"){
+    }else if(selectorEquipo.value === "equipo2"){
         jugadores.removeChild(imagen);
         campos[1].appendChild(imagen);
         cantidadJugadores[1].innerHTML++;
@@ -79,6 +80,10 @@ function elegirEquipo() {
     else if (cantidadJugadores[1].innerHTML >= 11){
         maximoJugadores();
         cantidadJugadores[1].innerHTML = 11;
+    }
+    else if (cantidadJugadores[0].innerHTML >= 11){
+        maximoJugadores();
+        cantidadJugadores[0].innerHTML = 11;
     }
 }
 
