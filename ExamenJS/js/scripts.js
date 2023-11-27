@@ -26,6 +26,29 @@ window.onload = function() {
     //al pulsar el boton jugar invocamos a la funcion jugar
     botonJugar.addEventListener("click", jugar);
 
+    let divs = document.querySelectorAll("div");
+    for(div of divs) {
+        div.addEventListener("drop", drop);
+        div.addEventListener("dragover", allowDrop);
+    }
+
+    drag1.draggable = true;
+    drag1.addEventListener("dragstart", drag);
+}
+
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("id", this.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var idElement = ev.dataTransfer.getData("id");
+    this.appendChild(document.getElementById(idElement));
 }
 
 /*funcion que cuando se clicka en la opcion del select despliega todas las imagenes
@@ -45,7 +68,8 @@ function cargarImg() {
             //jugadores.innerHTML += `<img src=./img/${this.value}/${[i]}.jpg`
 
             let jugadoresImg = document.createElement("img");
-            jugadoresImg.addEventListener("drop", elegirEquipo);
+            //jugadoresImg.addEventListener("dblclick", elegirEquipo);
+            jugadoresImg.addEventListener("dragstart", elegirEquipo);
             jugadoresImg.classList.add("jugador");
             jugadoresImg.src="img/"+grupoJugadores.value+"/"+i+".jpg";
             jugadores.appendChild(jugadoresImg);
@@ -62,7 +86,11 @@ function elegirEquipo() {
     /*Con esto pretendia que si en el select esta seleccionado equipo 1 las imagenes se pasen
     * al lado izquierdo, lo mismo para el lado derecho, solo funciona para el lado derecho*/
 
+/*
     this.removeEventListener("dblclick", elegirEquipo);
+*/
+    this.removeEventListener("dragstart", elegirEquipo);
+
     if (selectorEquipo.value == "equipo1"){
         equipo1.getElementsByClassName("campo")[0].appendChild(this);
         cantidadJugadores[0].innerHTML++;
@@ -80,11 +108,11 @@ function elegirEquipo() {
     }
 
     equipo1.addEventListener("drop", ()=>{
-        equipo1.appendChild(this)
+        equipo1.appendChild(this);
     });
 
     equipo2.addEventListener("drop", ()=>{
-        equipo2.appendChild(this)
+        equipo2.appendChild(this);
     });
 }
 function cargarJugadorSelect() {

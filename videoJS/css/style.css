@@ -1,0 +1,47 @@
+#reproductor {
+    background: rgba(0,0,150,.2);
+    position: relative;
+}
+
+video {
+    margin-top: 10px;
+    margin-left: 10px;
+    border: 10px solid #CCCCCC;
+    border-radius: 5px;
+}
+
+#barra {
+    position: relative;
+    bottom: 1.1em;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 720px;
+    height: 16px;
+    border: 10px solid #CCCCCC;
+    background: #999999;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+#progreso {
+    width: 0px;
+    height: 16px;
+    background: rgba(0,0,150,.2);
+}
+
+aside {
+    bottom: 25em;
+    display: flex;
+    flex-direction: row;
+    margin-right: 10em;
+    width: 30%;
+    height: 2em;
+    justify-content: space-around;
+}
+
+input {
+    background-color: #26ade3;
+    color: white;
+    margin: 2px;
+    border-radius: 5px;
+}
