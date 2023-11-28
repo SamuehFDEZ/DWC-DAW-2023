@@ -8,27 +8,30 @@
 </head>
 <body>
     <div id="reproductor">
-        <video id="video" width="720" height="400" controls>
-            <!--No me ha dejado descargar ningun video-->
-            <source src="videos/istockphoto-986390960-640_adpp_is.mp4" type="video/mp4">
-<!--
-            <source src="video.mp3" type="video/ogg">
--->
-        </video>
+        <video id="video" width="720" height="400"  src="videos/istockphoto-986390960-640_adpp_is.mp4"></video>
 
-        <div id="barra">
-            <div id="progreso"></div>
+        <div id="panel">
+            <button>X</button>
+            <span>Podrás quitar la publicidad dentro de... 10 segundos</span>
         </div>
+        <input type="range" id="barra">
         <aside>
-            <input type="button" id="silenciar" value="silenciar">
+            <input type="button" id="silent" value="silenciar">
             <input type="button" id="retrasar" value="&laquo;">
             <input type="button" id="play" value="&#9658;">
             <input type="button" id="adelantar" value="&raquo;">
             <input type="button" id="reiniciar" value="reiniciar">
 
-            <input type="button" id="menosVolumen" value="-">
+            <input type="button" id="quitarVolumen" value="-">
             <input type="button" id="masVolumen" value="+">
         </aside>
+
+        <div id="videos">
+            <video class="lista" src="videos/Tu%20ritmo,%20tus%20zapatillas.mp4"></video>
+            <video class="lista" src="videos/istockphoto-1151564132-640_adpp_is.mp4"></video>
+        </div>
+
+
     </div>
 </body>
 </html>

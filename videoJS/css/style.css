@@ -1,5 +1,4 @@
 #reproductor {
-    background: rgba(0,0,150,.2);
     position: relative;
 }
 
@@ -44,4 +43,52 @@ input {
     color: white;
     margin: 2px;
     border-radius: 5px;
+}
+
+#videos video{
+    position: relative;
+    display: block;
+    width: 20%;
+    left: 50%;
+    bottom: 520px;
+    cursor: pointer;
+}
+
+#panel{
+    position: absolute;
+    background-color: red;
+    width: 25%;
+    height: 25%;
+    z-index: 9;
+    left: 14%;
+    bottom: 60%;
+    font-size: 40px;
+    display: flex
+}
+
+span{
+    align-self: flex-end;
+    font-family: sans-serif;
+}
+
+button{
+    position: relative;
+    width: 60px;
+    height: 50px;
+    margin-top: 5px;
+    margin-right: 5px;
+    left: 85%;
+    font-weight: bold;
+    font-size: 40px;
+    background-color: red;
+    border: none;
+    cursor: pointer;
+}
+
+#barra{
+    width: 740px;
+    bottom: 40px;
+    accent-color: red;
+    border: 1px solid red;
+    border-radius: 0;
 }
