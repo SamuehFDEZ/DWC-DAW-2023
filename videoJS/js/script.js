@@ -1,6 +1,7 @@
 window.onload = () =>{
+    cargarAnuncioBloqueador();
     const listaVideos = document.getElementsByClassName("lista");
-    let boton = document.getElementsByTagName("button");
+    const boton = document.getElementById("boton");
     play.addEventListener("click", botonPlay);
     silent.addEventListener("click", botonMute);
     retrasar.addEventListener("click", retrasarBoton);
@@ -12,12 +13,43 @@ window.onload = () =>{
 
     for (const listaVideo of listaVideos) {
         listaVideo.addEventListener("click", videoAlReproductor);
+
     }
 }
 
+function cargarAnuncioBloqueador() {
+    bloquear.classList.remove("oculto");
+    panel.classList.remove("oculto");
+
+}
+
 function quitarPubli() {
-    let panel = document.getElementById("panel");
-    panel.remove();
+    this.parentNode.classList.add("oculto");
+    bloquear.classList.add("oculto");
+
+}
+
+let counter= document.getElementById("numero");
+
+let numero = setInterval(contador, 1000);
+counter = 10;
+
+function contador(){
+    if (counter !== 0){
+        boton.classList.add("oculto");
+    }
+    else{
+        boton.classList.remove("oculto");
+
+    }
+    if(counter === 0){
+        clearInterval(numero);
+
+    }
+    else {
+        counter -= 1;
+        document.getElementById("numero").innerHTML = counter;
+    }
 }
 
 function videoAlReproductor() {
@@ -30,6 +62,10 @@ function videoAlReproductor() {
     let videoAReproductor = video.src;
     video.src = this.src;
     this.src = videoAReproductor;
+    bloquear.classList.remove("oculto");
+    panel.classList.remove("oculto");
+    counter = 11;
+    contador();
 }
 
 /*
@@ -45,15 +81,17 @@ a = b;
 b = c;
 */
 
-
+let rep = 0;
 let reproduciendo = false;
 let silenciar = false;
 function botonPlay() {
     if (!reproduciendo){
+        rep = setInterval(progreso, 1);
         video.play();
         reproduciendo = true;
     }
     else{
+        clearInterval(rep);
         video.pause();
         reproduciendo = false;
     }
@@ -90,9 +128,13 @@ function retrasarBoton() {
     video.currentTime -= 1;
 }
 
+function progreso() {
+    barra.value = video.currentTime*10000
+    barra.max = video.duration*10000
+}
+
 function botonMute() {
     video.volume = 0;
-
     if (silenciar){
         video.volume = 1;
         silenciar = false;

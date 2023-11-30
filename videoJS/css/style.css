@@ -1,5 +1,8 @@
+
+
 #reproductor {
     position: relative;
+    width: 720px;
 }
 
 video {
@@ -23,19 +26,20 @@ video {
 }
 
 #progreso {
-    width: 0px;
+    width: 0;
     height: 16px;
     background: rgba(0,0,150,.2);
 }
 
 aside {
-    bottom: 25em;
+    position: relative;
+    left: 20%;
     display: flex;
     flex-direction: row;
     margin-right: 10em;
     width: 30%;
     height: 2em;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 input {
@@ -48,23 +52,41 @@ input {
 #videos video{
     position: relative;
     display: block;
-    width: 20%;
-    left: 50%;
+    width: 50%;
+    left: 120%;
     bottom: 520px;
     cursor: pointer;
 }
 
-#panel{
+#bloquear {
+    position: absolute;
+    left:20px;
+    top:0;
+    width: 100%;
+    height: 75%;
+    background-color: black;
+    opacity: .3;
+    z-index: 1;
+}
+
+
+.panel{
     position: absolute;
     background-color: red;
-    width: 25%;
+    width: 65%;
     height: 25%;
-    z-index: 9;
+    z-index: 2;
     left: 14%;
     bottom: 60%;
     font-size: 40px;
     display: flex
+
 }
+
+.oculto{
+    display: none;
+}
+
 
 span{
     align-self: flex-end;
@@ -86,9 +108,7 @@ button{
 }
 
 #barra{
-    width: 740px;
-    bottom: 40px;
+    width: 100%;
     accent-color: red;
-    border: 1px solid red;
-    border-radius: 0;
+    transition: 0.1s;
 }

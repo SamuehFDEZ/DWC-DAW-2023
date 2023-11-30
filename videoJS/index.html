@@ -7,31 +7,41 @@
     <script src="js/script.js"></script>
 </head>
 <body>
-    <div id="reproductor">
-        <video id="video" width="720" height="400"  src="videos/istockphoto-986390960-640_adpp_is.mp4"></video>
+    <div id="page">
+        <main>
+            <div id="reproductor">
+                <video id="video" width="720" height="400"  src="videos/istockphoto-986390960-640_adpp_is.mp4"></video>
+                <input type="range" id="barra">
 
-        <div id="panel">
-            <button>X</button>
-            <span>Podrás quitar la publicidad dentro de... 10 segundos</span>
-        </div>
-        <input type="range" id="barra">
-        <aside>
-            <input type="button" id="silent" value="silenciar">
-            <input type="button" id="retrasar" value="&laquo;">
-            <input type="button" id="play" value="&#9658;">
-            <input type="button" id="adelantar" value="&raquo;">
-            <input type="button" id="reiniciar" value="reiniciar">
+               <div id="panel" class="panel oculto">
+                    <button id="boton">X</button>
+                    <span>
+                        Podrás quitar la publicidad dentro de...
+                        <span id="numero" class="numero">
+                            10
+                        </span>
+                        segundos
+                    </span>
+               </div>
+                <aside>
+                    <input type="button" id="silent" value="silenciar">
+                    <input type="button" id="retrasar" value="&laquo;">
+                    <input type="button" id="play" value="&#9658;">
+                    <input type="button" id="adelantar" value="&raquo;">
+                    <input type="button" id="reiniciar" value="reiniciar">
 
-            <input type="button" id="quitarVolumen" value="-">
-            <input type="button" id="masVolumen" value="+">
-        </aside>
+                    <input type="button" id="quitarVolumen" value="-">
+                    <input type="button" id="masVolumen" value="+">
+                </aside>
 
-        <div id="videos">
-            <video class="lista" src="videos/Tu%20ritmo,%20tus%20zapatillas.mp4"></video>
-            <video class="lista" src="videos/istockphoto-1151564132-640_adpp_is.mp4"></video>
-        </div>
-
-
+                <div id="videos">
+                    <video class="lista" src="videos/Tu%20ritmo,%20tus%20zapatillas.mp4"></video>
+                    <video class="lista" src="videos/istockphoto-1151564132-640_adpp_is.mp4"></video>
+                </div>
+                <div id="bloquear" class="oculto">
+                </div>
+            </div>
+        </main>
     </div>
 </body>
 </html>

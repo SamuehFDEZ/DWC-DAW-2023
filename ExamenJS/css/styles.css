@@ -78,7 +78,7 @@ select, button {
     float:right;
 }
 
-#bloquear {
+.bloquear {
     position: absolute;
     left:0;
     top:0;
