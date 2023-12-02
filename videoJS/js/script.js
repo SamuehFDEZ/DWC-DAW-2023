@@ -10,17 +10,17 @@ window.onload = () =>{
     quitarVolumen.addEventListener("click", menosVolumen);
     masVolumen.addEventListener("click", moreVolumen);
     boton.addEventListener("click", quitarPubli);
+    barra.addEventListener('click', segundoDelVideo);
 
     for (const listaVideo of listaVideos) {
         listaVideo.addEventListener("click", videoAlReproductor);
-
     }
 }
 
 function cargarAnuncioBloqueador() {
     bloquear.classList.remove("oculto");
     panel.classList.remove("oculto");
-
+    contador();
 }
 
 function quitarPubli() {
@@ -29,26 +29,25 @@ function quitarPubli() {
 
 }
 
-let counter= document.getElementById("numero");
 
-let numero = setInterval(contador, 1000);
-counter = 10;
+let num = setInterval(contador, 1000);
+numero = 11;
 
 function contador(){
-    if (counter !== 0){
+    if (numero !== 0){
         boton.classList.add("oculto");
     }
     else{
         boton.classList.remove("oculto");
 
     }
-    if(counter === 0){
-        clearInterval(numero);
+    if(numero === 0){
+        clearInterval(num);
 
     }
     else {
-        counter -= 1;
-        document.getElementById("numero").innerHTML = counter;
+        numero -= 1;
+        document.getElementById("numero").innerHTML = numero;
     }
 }
 
@@ -62,10 +61,11 @@ function videoAlReproductor() {
     let videoAReproductor = video.src;
     video.src = this.src;
     this.src = videoAReproductor;
+    numero = 10;
+    document.getElementById("numero").innerHTML = numero;
+
     bloquear.classList.remove("oculto");
     panel.classList.remove("oculto");
-    counter = 11;
-    contador();
 }
 
 /*
@@ -143,4 +143,9 @@ function botonMute() {
         video.volume = 0;
         silenciar = true;
     }
+}
+function segundoDelVideo(e) {
+    // en porcentaje se calcula lo que mide la barra y lo que ocupa en el navegador
+    let porcentaje = (100*e.offsetX)/barra.offsetWidth;
+    video.currentTime = Math.floor(video.duration * (porcentaje / 100));
 }

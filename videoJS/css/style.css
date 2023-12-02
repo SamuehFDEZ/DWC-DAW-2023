@@ -1,3 +1,6 @@
+body{
+    background-color: #111111;
+}
 
 
 #reproductor {
@@ -47,6 +50,8 @@ input {
     color: white;
     margin: 2px;
     border-radius: 5px;
+    width: 120%;
+    height: 50px;
 }
 
 #videos video{
@@ -62,7 +67,7 @@ input {
     position: absolute;
     left:20px;
     top:0;
-    width: 100%;
+    width: 120%;
     height: 75%;
     background-color: black;
     opacity: .3;
