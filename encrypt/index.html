@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encrypt</title>
+</head>
+<link rel="stylesheet" href="css/style.css">
+<script src="js/script.js"></script>
+<body>
+<div id="pagina">
+    <button id="botonRegistrar">Registrar</button>&nbsp;
+    <button id="botonLog">Log In</button><br><br>
+
+    <div id="login" class="oculto">
+        <form action="login.php">
+            <label for="Usuario">Usuario</label><br><br>
+            <input type="text" name="Usuario" id="Usuario"><br><br>
+
+            <label for="passLogin">Contraseña</label><br><br>
+            <input type="password" name="passLogin" id="passLogin"><br><br>
+
+            <input type="submit" name="enviarLog" id="enviarLog" class="boton">
+        </form>
+    </div>
+
+    <div id="registrar" class="oculto">
+        <form action="registrar.php">
+            <label for="correo">Correo Electrónico</label><br><br>
+            <input type="email" name="correo" id="correo"><br><br>
+
+            <label for="Nombre">Nombre</label><br><br>
+            <input type="email" name="Nombre" id="Nombre"><br><br>
+
+            <label for="DNI">DNI</label><br><br>
+            <input type="text" name="DNI" id="DNI"><br><br>
+
+            <label for="Apellidos">Apellidos</label><br><br>
+            <input type="text" name="Apellidos" id="Apellidos"><br><br>
+
+            <label for="Teléfono">Teléfono</label><br><br>
+            <input type="tel" name="Teléfono" id="Teléfono"><br><br>
+
+            <label for="Contraseña">Contraseña</label><br><br>
+            <input type="password" name="Contraseña" id="Contraseña"><br><br>
+
+            <label for="repetirContraseña">Repetir Contraseña</label><br><br>
+            <input type="password" name="repetirContraseña" id="repetirContraseña"><br><br>
+
+            <input type="submit" name="enviarRegistro" id="enviarRegistro" class="boton">
+        </form>
+    </div>
+</div>
+</body>
+</html>
