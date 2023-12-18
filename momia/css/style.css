@@ -1,0 +1,41 @@
+/*#plano{
+    width: 550px;
+    height: 300px;
+}*/
+
+
+#plano{
+    width: 1150px;
+    height: 750px;
+}
+
+
+.cajita{
+    width: 50px;
+    height: 50px;
+    background-color: silver;
+    float: left;
+}
+
+.fuera{
+    background-color: yellow;
+}
+
+.columna{
+    background-color: orange;
+}
+
+.camino{
+    background-color: black;
+}
+
+.ninot{
+    background-image: url("../img/vader.png");
+    background-size: cover;
+}
+
+/*
+.pasos{
+    background-image: url("../img/");
+}
+*/
