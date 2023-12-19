@@ -6,9 +6,8 @@
 
 #plano{
     width: 1150px;
-    height: 750px;
+    height: 300px;
 }
-
 
 .cajita{
     width: 50px;
@@ -29,13 +28,18 @@
     background-color: black;
 }
 
-.ninot{
-    background-image: url("../img/vader.png");
+.pasos{
+    background-image: url("../img/rastros.png");
     background-size: cover;
 }
 
-/*
-.pasos{
-    background-image: url("../img/");
+/*.ninot-invertido {
+    transform: scaleX(-1);
+    background-size: cover;
+}*/
+
+.ninot{
+    background-image: url("../img/bb8.png");
+    background-size: cover;
 }
-*/
+
