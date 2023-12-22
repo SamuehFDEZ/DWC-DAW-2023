@@ -43,6 +43,11 @@
     background-size: cover;
 }
 
+.momia{
+    background-image: url("../img/momia.png");
+    background-size: cover;
+}
+
 .descubrir{
     background-color: #26ade3;
 }

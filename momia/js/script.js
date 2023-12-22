@@ -1,5 +1,9 @@
 let columnas = 23;
 let filas = 15;
+let posMomiaX;
+let posMomiaY;
+let intervaloMomia;
+
 
 /*let columnas = 11;
 let filas = 6;*/
@@ -36,11 +40,65 @@ window.onload = () =>{
     contenedorPadre[posNinotX][posNinotY].classList.add("ninot");
     document.addEventListener("keydown", movimiento);
     contenedorPadre[0][9].classList.add("camino");
+    posMomiaX = Math.floor(Math.random() * (filas - 2)) + 1; // Evita las filas de fuera
+    posMomiaY = Math.floor(Math.random() * (columnas - 2)) + 1; // Evita las columnas de fuera
+
+    contenedorPadre[posMomiaX][posMomiaY].classList.add("momia");
 }
+
+let direccionAnterior = { x: 0, y: 0 };
+
+function moverMomia() {
+    const direcciones = [
+        { x: 1, y: 0 },  // Derecha
+        { x: 0, y: -1 },  // Abajo
+        { x: -1, y: 0 }, // Izquierda
+        { x: 0, y: 1 }, // Arriba
+    ];
+
+    /*En esta constante lo que se busca es que no se repita una direccion
+    * si por ejemplo la momia se mueve hacia adelante luego atras y luego adelante
+    * evitar ese comportamiento, ¿como? obtenemos el array direcciones, con el metodo filter
+    * dentro le pasamos un parametro (dir), mediante una funcion flecha que devolvera lo que
+    * nos interesa controlara que de las direcciones que tenemos en el array direcciones no coincida
+    * con con la direccion que hemos realizado antes */
+    const direccionesDisponibles =
+        direcciones.filter(dir =>
+            !(dir.x === -direccionAnterior.x && dir.y === -direccionAnterior.y));
+
+    // Si quedan direcciones disponibles, elige una aleatoria
+    if (direccionesDisponibles.length > 0) {
+        const direccionAleatoria = direccionesDisponibles[Math.floor(Math.random() * direccionesDisponibles.length)];
+
+        const nuevaPosX = posMomiaX + direccionAleatoria.x;
+        const nuevaPosY = posMomiaY + direccionAleatoria.y;
+
+        if (contenedorPadre[nuevaPosX][nuevaPosY].classList.contains("camino")) {
+            // Mueve la momia
+            contenedorPadre[posMomiaX][posMomiaY].classList.remove("momia");
+            posMomiaX = nuevaPosX;
+            posMomiaY = nuevaPosY;
+            contenedorPadre[posMomiaX][posMomiaY].classList.add("momia");
+
+            // Actualiza la dirección anterior
+            direccionAnterior = direccionAleatoria;
+        }
+    }
+}
+
+
+
+// Llama a esta función en intervalos regulares (por ejemplo, cada 1000 milisegundos)
+intervaloMomia = setInterval(moverMomia, 200);
 
 function comprobar() {
     for (const vertice of vertices) {
         recorrerCaja(vertice[0], vertice[1]);
+    }
+
+    if (posNinotX === posMomiaX && posNinotY === posMomiaY) {
+        alert("¡La momia te ha atrapado!");
+        // Realiza alguna acción, como reiniciar el juego
     }
 }
 
