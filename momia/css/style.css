@@ -3,7 +3,6 @@
     height: 300px;
 }*/
 
-
 #plano{
     width: 1150px;
     height: 300px;
@@ -50,4 +49,37 @@
 
 .descubrir{
     background-color: #26ade3;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    left: 60px;
+    font-size: 30px;
+}
+
+.pergaminoEspada{
+    background-image: url("../img/sable_pergamino.webp");
+    background-repeat:no-repeat ;
+    background-size: cover;
+
+}
+
+.cofre {
+    background-image: url("../img/cofreRebelde.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.llaveEstrellaMuerte{
+    background-image: url("../img/llaveEstrellaMuerte.png");
+    background-size: cover;
+    background-repeat:no-repeat ;
+}
+
+.sarcofagoXWing{
+    background-image: url("../img/sarcofagoXWing.png");
+    background-repeat:no-repeat;
+    background-size: cover;
+
 }

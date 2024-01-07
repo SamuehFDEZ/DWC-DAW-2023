@@ -3,7 +3,7 @@ let filas = 15;
 let posMomiaX;
 let posMomiaY;
 let intervaloMomia;
-
+let score = 0;
 
 /*let columnas = 11;
 let filas = 6;*/
@@ -40,6 +40,11 @@ window.onload = () =>{
     contenedorPadre[posNinotX][posNinotY].classList.add("ninot");
     document.addEventListener("keydown", movimiento);
     contenedorPadre[0][9].classList.add("camino");
+
+    anyadirMomia();
+}
+
+function anyadirMomia() {
     posMomiaX = Math.floor(Math.random() * (filas - 2)) + 1; // Evita las filas de fuera
     posMomiaY = Math.floor(Math.random() * (columnas - 2)) + 1; // Evita las columnas de fuera
 
@@ -102,13 +107,86 @@ function comprobar() {
     }
 }
 
+
+let sableAparecido = false;
+let momiaAparecida = false;
+let cofreAparecido = false;
+let llaveAparecido = false;
+let sarcoAparecido = false;
+
+
 function descubrirElemento(x, y) {
-    for (let i = x; i < x + 2; i++) {
-        for (let j = y; j < y + 3; j++) {
-            contenedorPadre[i][j].classList.add("descubrir")
+
+    const elementos = [];
+
+    if (!sableAparecido) {
+        elementos.push("sable");
+    }
+
+    if (!momiaAparecida) {
+        elementos.push("momia");
+    }
+
+    if (!cofreAparecido) {
+        elementos.push("cofre");
+    }
+    if (!llaveAparecido) {
+        elementos.push("llave");
+    }
+    if (!sarcoAparecido) {
+        elementos.push("sarcofago");
+    }
+
+    const elementoAleatorio = elementos.length > 0 ? elementos[Math.floor(Math.random() * elementos.length)] : "nada";
+
+        // Verifica si el elemento ya ha sido descubierto
+    if (!contenedorPadre[x][y].classList.contains("descubierto")) {
+        for (let i = x; i < x + 2; i++) {
+            for (let j = y; j < y + 3; j++) {
+                contenedorPadre[i][j].classList.add("descubrir");
+            }
         }
+
+        if (contenedorPadre[x][y].classList.contains("descubrir")) {
+            if (elementoAleatorio === "sable") {
+                if (contenedorPadre[x][y].classList.contains("descubrir")) {
+                    contenedorPadre[x][y].classList.add("descubrir");
+                    contenedorPadre[x][y].classList.add("pergaminoEspada");
+                    sableAparecido = true;
+                }
+            } else if (elementoAleatorio === "momia") {
+                if (contenedorPadre[x][y].classList.contains("descubrir")) {
+                    contenedorPadre[x][y].classList.add("descubrir");
+                    contenedorPadre[x][y].classList.add("momia");
+                    momiaAparecida = true;
+                }
+            } else if (elementoAleatorio === "cofre") {
+                if (contenedorPadre[x][y].classList.contains("descubrir")) {
+                    contenedorPadre[x][y].classList.add("descubrir");
+                    contenedorPadre[x][y].classList.add("cofre");
+                    cofreAparecido = true;
+                }
+            } else if (elementoAleatorio === "llave") {
+                if (contenedorPadre[x][y].classList.contains("descubrir")) {
+                    contenedorPadre[x][y].classList.add("descubrir");
+                    contenedorPadre[x][y].classList.add("llaveEstrellaMuerte");
+                    llaveAparecido = true;
+                }
+            } else if (elementoAleatorio === "sarcofago") {
+                if (contenedorPadre[x][y].classList.contains("descubrir")) {
+                    contenedorPadre[x][y].classList.add("descubrir");
+                    contenedorPadre[x][y].classList.add("sarcofagoXWing");
+                    sarcoAparecido = true;
+                }
+            }
+        }
+        contenedorPadre[x][y].classList.add("descubierto");
     }
 }
+
+
+
+
 
 function recorrerCaja(x,y) {
     let pisadas = 0;
@@ -124,13 +202,18 @@ function recorrerCaja(x,y) {
     }
 }
 
-function crearPlano(){
+function crearPlano() {
     let tablero = document.createElement("div");
-
     tablero.id = "plano";
-
     document.body.appendChild(tablero);
 
+    // Agrega el marcador de SCORE
+    const scoreElement = document.createElement("div");
+    scoreElement.id = "score";
+    scoreElement.textContent = "Score: 00000";
+    tablero.appendChild(scoreElement);
+
+    // Agrega las cajitas al tablero
     for (let i = 0; i < filas; i++) {
         let fila = [];
         for (let j = 0; j < columnas; j++) {
@@ -138,19 +221,19 @@ function crearPlano(){
             cajita.className = "cajita";
             fila.push(cajita);
             tablero.appendChild(cajita);
-            if (i == 0 || i == filas -1 || j == 0 || j == columnas -1){
+
+            if (i == 0 || i == filas - 1 || j == 0 || j == columnas - 1) {
                 cajita.classList.add("fuera");
-            }
-            else if (j % 4 == 1 || i % 3 == 1){
+            } else if (j % 4 == 1 || i % 3 == 1) {
                 cajita.classList.add("camino");
-            }
-            else{
+            } else {
                 cajita.classList.add("columna");
             }
         }
         contenedorPadre.push(fila);
     }
 }
+
 
 
 function movimiento(ev) {
@@ -191,3 +274,4 @@ function mover(x, y){
         comprobar();
     }
 }
+
