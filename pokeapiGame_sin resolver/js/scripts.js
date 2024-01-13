@@ -1,4 +1,7 @@
 let totalCartas = 10;
+let totalPlayer = 0;
+let totalMachine = 0;
+
 let cartasMaquinas =[];
 let cartasJugador = [];
 let pokemons;
@@ -6,7 +9,21 @@ let pokemons;
 window.onload = () =>{
     cargarPokemons();
     cartel.classList.toggle("ocultar");
+    player.addEventListener("click", cartaEnJugada);
+
 }
+
+function cartaEnJugada(event) {
+    // Obtén el elemento que fue clickeado (la carta)
+    const cartaClickeada = event.target.closest('.carta');
+
+    // Verifica que la carta sea hija del div player
+    if (cartaClickeada && player.contains(cartaClickeada)) {
+        // Mueve la carta al div jugadaPlayer
+        jugadaPlayer.appendChild(cartaClickeada);
+    }
+}
+
 
 async function cargarPokemons() {
     let iniURL = "https://pokeapi.co/api/v2/pokemon";
@@ -66,6 +83,7 @@ function idPokemon(url) {
     return id;
 }
 
+
 function cargarCartas() {
     // bucle para las cartas del jugador
     for (let i = 0; i < cartasJugador.length; i++) {
@@ -87,9 +105,9 @@ function cargarCartas() {
         carta.appendChild(img);
         carta.appendChild(nombre);
     }
+
     // bucle para las cartas de la maquina
     for (let i = 0; i < cartasMaquinas.length; i++) {
-
         let carta = document.createElement("div");
         carta.classList.add("carta");
 
