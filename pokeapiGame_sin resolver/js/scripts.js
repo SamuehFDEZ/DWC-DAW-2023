@@ -6,24 +6,77 @@ let cartasMaquinas =[];
 let cartasJugador = [];
 let pokemons;
 
-window.onload = () =>{
-    cargarPokemons();
-    cartel.classList.toggle("ocultar");
+window.onload = async () =>{
+    ocultarCartel();
+    await cargarPokemons();
     player.addEventListener("click", cartaEnJugada);
+    turnoSalida();
+}
 
+function ocultarCartel(){
+    cartel.classList.toggle("ocultar");
 }
 
 function cartaEnJugada(event) {
     // Obtén el elemento que fue clickeado (la carta)
-    const cartaClickeada = event.target.closest('.carta');
+    const cartaClickeada = event.target.closest(".carta");
 
     // Verifica que la carta sea hija del div player
     if (cartaClickeada && player.contains(cartaClickeada)) {
         // Mueve la carta al div jugadaPlayer
         jugadaPlayer.appendChild(cartaClickeada);
+        if (cuentaCartas() >= 2){
+            comprobarJugada();
+        }
+        else{
+            setTimeout(turnoDeMaquina, 3000);
+        }
     }
 }
 
+
+function turnoSalida(){
+    // Maquina - 0
+    //Jugador - 1
+    let turno = Math.floor(Math.random() * 2);
+    
+    if (!turno){
+        console.log(turno);
+        reportero.innerHTML = '<img src="img/progress.gif">'+"Juega la máquina";
+        turnoDeMaquina();
+
+    }
+    else {
+        console.log(turno);
+        reportero.innerText = "Juega el jugador";
+
+    }
+}
+
+function cuentaCartas(){
+    return play.querySelectorAll("#play .carta").length;
+}
+
+//cuando haya dos cartas en medio comprobar quien gana
+function comprobarJugada() {
+    if (parseInt(jugadaMachine.querySelector(".carta .exp")) >
+        parseInt(jugadaPlayer.querySelector(".carta .exp"))){
+            let cartasJugadas = play.querySelectorAll(".carta");
+        for (const carta of cartasJugadas) {
+            cartasMachine.appendChild(carta);
+        }
+    }
+}
+
+function turnoDeMaquina() {
+    let cartasMaquina = document.querySelectorAll("#machine .carta");
+    let cartaMaquina = cartasMaquina[Math.floor(Math.random() * cartasMaquina.length)];
+    cartaMaquina.querySelector("img.dorso").remove();
+    jugadaMachine.appendChild(cartaMaquina);
+    if (cuentaCartas() >= 2){
+        comprobarJugada();
+    }
+}
 
 async function cargarPokemons() {
     let iniURL = "https://pokeapi.co/api/v2/pokemon";
@@ -37,8 +90,6 @@ async function cargarPokemons() {
 
     await fetch(totalURL).then(data => data.json()).then(info => {
         pokemons = info.results;
-
-
     });
     let pokemonSeleccionados = [];
     let i = 0;
@@ -63,8 +114,6 @@ async function cargarPokemons() {
             i++;
         }
     }
-    console.table(cartasJugador);
-    console.table(cartasMaquinas);
     cargarCartas();
 }
 
@@ -117,7 +166,7 @@ function cargarCartas() {
         carta.appendChild(exp);
 
         let img = document.createElement("img");
-        img.src = cartasJugador[i][2];
+        img.src = cartasMaquinas[i][2];
         carta.appendChild(img);
 
         let nombre = document.createElement("div");
