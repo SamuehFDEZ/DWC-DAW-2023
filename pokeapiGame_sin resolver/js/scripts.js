@@ -1,10 +1,8 @@
 let totalCartas = 10;
-let totalPlayer = 0;
-let totalMachine = 0;
-
 let cartasMaquinas =[];
 let cartasJugador = [];
 let pokemons;
+let juegaLaMaquina = false;
 
 window.onload = async () =>{
     ocultarCartel();
@@ -14,7 +12,10 @@ window.onload = async () =>{
 }
 
 function ocultarCartel(){
-    cartel.classList.toggle("ocultar");
+    cartel.classList.add("ocultar");
+}
+function desocultarCartel(){
+    cartel.classList.remove("ocultar");
 }
 
 function cartaEnJugada(event) {
@@ -25,11 +26,15 @@ function cartaEnJugada(event) {
     if (cartaClickeada && player.contains(cartaClickeada)) {
         // Mueve la carta al div jugadaPlayer
         jugadaPlayer.appendChild(cartaClickeada);
+        console.log(cuentaCartas());
         if (cuentaCartas() >= 2){
+            juegaLaMaquina = true;
             comprobarJugada();
         }
         else{
             setTimeout(turnoDeMaquina, 3000);
+            juegaLaMaquina = false;
+
         }
     }
 }
@@ -59,22 +64,88 @@ function cuentaCartas(){
 
 //cuando haya dos cartas en medio comprobar quien gana
 function comprobarJugada() {
-    if (parseInt(jugadaMachine.querySelector(".carta .exp")) >
-        parseInt(jugadaPlayer.querySelector(".carta .exp"))){
-            let cartasJugadas = play.querySelectorAll(".carta");
-        for (const carta of cartasJugadas) {
+    if (parseInt(jugadaMachine.querySelector(".carta .experiencia").innerText) >
+        parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText)){
+        let cartasJugadas = play.querySelectorAll(".carta");
+        for (carta of cartasJugadas) {
             cartasMachine.appendChild(carta);
+            totalMachine.innerText = parseInt(totalMachine.innerText) + parseInt(carta.querySelector(".experiencia").innerText);
+            if (totalMachine.innerText >= 1000){
+                cartel.innerText = "Ha ganado la maquina";
+                desocultarCartel();
+                let boton = document.createElement("button");
+                boton.id = "volveraJugar";
+                boton.innerText = "Volver a Jugar";
+                cartel.appendChild(boton);
+                volverJugar();
+
+            }
         }
+        turnoDeMaquina();
+    }
+    else if (parseInt(jugadaMachine.querySelector(".carta .experiencia").innerText) <
+        parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText)){
+        let cartasJugadas = play.querySelectorAll(".carta");
+        for (carta of cartasJugadas) {
+            cartasPlayer.appendChild(carta);
+            totalPlayer.innerText = parseInt(totalPlayer.innerText) + parseInt(carta.querySelector(".experiencia").innerText);
+            if (totalPlayer.innerText >= 1000){
+                cartel.innerText = "Ha ganado el jugador";
+                desocultarCartel();
+                let boton = document.createElement("button");
+                boton.id = "volveraJugar";
+                boton.innerText = "Volver a Jugar";
+                cartel.appendChild(boton);
+                volverJugar();
+            }
+        }
+    }
+    else{
+        cartasPlayer.appendChild(jugadaPlayer.querySelector(".carta"));
+        cartasMachine.appendChild(jugadaMachine.querySelector(".carta"));
+        if (juegaLaMaquina){
+            turnoDeMaquina();
+        }
+
     }
 }
 
-function turnoDeMaquina() {
+async function turnoDeMaquina() {
     let cartasMaquina = document.querySelectorAll("#machine .carta");
-    let cartaMaquina = cartasMaquina[Math.floor(Math.random() * cartasMaquina.length)];
+    let cartaMaquina = elegirCarta(); //cartasMaquina[Math.floor(Math.random() * cartasMaquina.length)];
     cartaMaquina.querySelector("img.dorso").remove();
     jugadaMachine.appendChild(cartaMaquina);
     if (cuentaCartas() >= 2){
-        comprobarJugada();
+       await comprobarJugada();
+    }
+}
+
+function elegirCarta() {
+    if (play.querySelectorAll(".carta").length == 1){
+        // experiencia carta jugador
+        let cartaElegida
+        let exp = parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText);
+        let cartasMaquina = tableroMachine.querySelector(".carta");
+        /*for (const carta of cartaMaquina) {
+            if (parseInt(carta.querySelector(".experiencia").innerText) > exp){
+                return carta
+            }
+        }*/
+        let i =0;
+        while (!cartaElegida || i < cartasMaquina.length){
+            if(parseInt(cartasMaquina[i].querySelector(".experiencia").innerText == exp)){
+                //comprobar puntuacion
+            }
+            else if(parseInt(cartasMaquina[i].querySelector(".experiencia").innerText > exp)){
+                cartaElegida = cartasMaquina[i];
+
+            }
+            i++;
+        }
+
+    }
+    else{
+        //random
     }
 }
 
@@ -97,23 +168,27 @@ async function cargarPokemons() {
     while (i < totalCartas) {
         let pos = Math.floor(Math.random() * total);
 
+
+
         if (pokemonSeleccionados[pos] != "X") {
             pokemonSeleccionados[pos] = "X";
 
-            /*return (i%2 === 0) ?
-                cartasJugador.push(cargarPokemon(pokemons[pos].url))
-                :
-                cartasMaquinas.push(cargarPokemon(pokemons[pos].url));*/
+            let cartaPokemon = await cargarPokemon(pokemons[pos].url);
 
-            if (i%2 === 0){
-                cartasJugador.push(await cargarPokemon(pokemons[pos].url))
+            if (cartaPokemon[0]){
+                if (i%2 === 0){
+                    cartasJugador.push(await cargarPokemon(pokemons[pos].url))
+                }
+                else{
+                    cartasMaquinas.push(await cargarPokemon(pokemons[pos].url));
+                }
+                i++;
             }
-            else{
-                cartasMaquinas.push(await cargarPokemon(pokemons[pos].url));
-            }
-            i++;
         }
     }
+    //cartaMaquina.sort((a,b)=> a[0] - b[0]);
+    //cartaPlayer.sort((a,b)=> a[0] - b[0]);
+
     cargarCartas();
 }
 
@@ -128,10 +203,12 @@ async function cargarPokemon(url) {
 }
 
 
-function idPokemon(url) {
-    return id;
+function volverJugar() {
+    let boton = document.getElementById("volveraJugar")
+    boton.addEventListener("click", ()=>{
+        location.reload();
+    })
 }
-
 
 function cargarCartas() {
     // bucle para las cartas del jugador

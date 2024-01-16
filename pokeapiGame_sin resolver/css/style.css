@@ -17,6 +17,12 @@
     width:100%;
 }
 
+body{
+    background-image: url("../img/estadio.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 #player{
     float:left;
     width:100%;
@@ -95,6 +101,25 @@
 }
 .ocultar {
     display: none;
+}
+
+#volveraJugar{
+    font-family: pokemon;
+    font-size:130px;
+    text-align: center;
+    color: yellow;
+    background-color:black;
+    opacity: .8;
+    width:50%;
+    position:relative;
+    cursor: pointer;
+    border: 1px solid white;
+    border-radius: 25px;
+}
+
+#volveraJugar:hover{
+    box-shadow: 10px 10px 10px white;
+    text-shadow: white;
 }
 
 #cartel {
@@ -184,11 +209,12 @@
     right:20px;
     bottom:20px;
     border: gray;
-    background-color:whitesmoke;
+    background-color:black;
     box-shadow: 0 0 15px gray;
     width:280px;
     text-align: center;
     padding: 25px;
+    color: white;
 }
 
 #reportero img {
