@@ -58,6 +58,11 @@ function turnoSalida(){
     }
 }
 
+cartaMaquina.sort((a,b)=> a[0] - b[0]);
+cartaPlayer.sort((a,b)=> a[0] - b[0]);
+
+
+
 function cuentaCartas(){
     return play.querySelectorAll("#play .carta").length;
 }
@@ -121,32 +126,40 @@ async function turnoDeMaquina() {
 }
 
 function elegirCarta() {
+    let cartaElegida;
+
     if (play.querySelectorAll(".carta").length == 1){
         // experiencia carta jugador
-        let cartaElegida
         let exp = parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText);
-        let cartasMaquina = tableroMachine.querySelector(".carta");
+        let cartasMaquina = machine.querySelectorAll(".carta");
+        console.log(typeof(parseInt(cartasMaquina[0].querySelector(".experiencia").innerText)));
         /*for (const carta of cartaMaquina) {
             if (parseInt(carta.querySelector(".experiencia").innerText) > exp){
                 return carta
             }
         }*/
-        let i =0;
+        let i = 0;
         while (!cartaElegida || i < cartasMaquina.length){
             if(parseInt(cartasMaquina[i].querySelector(".experiencia").innerText == exp)){
                 //comprobar puntuacion
+                if (parseInt(totalMachine.innerText)
+                    + parseInt(cartasMaquina[i].querySelector(".experiencia").innerText) >= 1000){
+                    cartaElegida = cartasMaquina[i];
+                }
             }
             else if(parseInt(cartasMaquina[i].querySelector(".experiencia").innerText > exp)){
                 cartaElegida = cartasMaquina[i];
-
             }
             i++;
         }
-
+        if (!cartaElegida){
+            cartaElegida = cartasMaquina[0];
+        }
+    } else{
+       //la maquina elige una carta random
+        cartaElegida = cartasMaquina[Math.floor(Math.random() * cartasMaquinas.length)];
     }
-    else{
-        //random
-    }
+    return cartaElegida;
 }
 
 async function cargarPokemons() {
@@ -168,8 +181,6 @@ async function cargarPokemons() {
     while (i < totalCartas) {
         let pos = Math.floor(Math.random() * total);
 
-
-
         if (pokemonSeleccionados[pos] != "X") {
             pokemonSeleccionados[pos] = "X";
 
@@ -186,9 +197,6 @@ async function cargarPokemons() {
             }
         }
     }
-    //cartaMaquina.sort((a,b)=> a[0] - b[0]);
-    //cartaPlayer.sort((a,b)=> a[0] - b[0]);
-
     cargarCartas();
 }
 
