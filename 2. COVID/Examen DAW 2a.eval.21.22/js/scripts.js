@@ -1,42 +1,31 @@
 window.onload = async () =>{
-    clickEstado();
-    await cargarDatos();
+    await clickEstado();
 }
 
 //click al area que contiene el panel oculto y despliega la info del estado
-function clickEstado(){
+async function clickEstado(){
     let area = document.getElementsByTagName("area");
     for (const areaElement of area) {
         areaElement.addEventListener("click", mostrarPanel);
         modal.addEventListener("click", mostrarPanel);
     }
 }
+
+
 //mostrar o no panel
-function mostrarPanel(){
-    modal.classList.toggle("oculto");
-}
-
 // funcion asyncrona para cargar el nombre del estado y sus notas
-//⚠️ solo sale wyoming (problema con el for del primer fetch)
-async function cargarDatos() {
-        let url = "https://api.covidtracking.com/v1/states/info.json";
-        let urlHispanos = `https://api.census.gov/data/2019/pep/charagegroups?get=POP&HISP=1&for=state:${2}`;
+async function mostrarPanel(cod){
+    modal.classList.toggle("oculto");
+    //let fips = area.data-cod;
+    let url = "https://api.covidtracking.com/v1/states/";
+    //let urlHispanos = `https://api.census.gov/data/2019/pep/charagegroups?get=POP&HISP=1&for=state:${2}`;
+    titulo.innerText = this.title;
 
-        await fetch(url).then(data => data.json()).then(info => {
-            for (let i = 0; i < info.length; i++) {
-                titulo.innerText = info[i].name;
-                notas.innerText = info[i].notes;
-                //fecha.innerText = info[i].date;
-            }
-        });
-     /*   await fetch(urlHispanos).then(data => data.json()).then(info => {
-            let poblacion = document.querySelectorAll(".poblacion");
-            for (let i = 0; i < poblacion.length; i++) {
-                console.log(poblacion[i] = info[i]);
-            }
-        });*/
+    await fetch(url+cod+"info.json").then(data => data.json()).then(info => {
+        console.log(info);
+        notas.innerText = info.notes;
 
-
+    });
 }
 
 /*
