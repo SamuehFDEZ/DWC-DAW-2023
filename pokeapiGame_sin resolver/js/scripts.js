@@ -73,6 +73,7 @@ function cuentaCartas(){
 
 //cuando haya dos cartas en medio comprobar quien gana
 function comprobarJugada() {
+
     // if para comprobar si gana la maquina
     if (parseInt(jugadaMachine.querySelector(".carta .experiencia").innerText) >
         parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText)){
@@ -159,7 +160,8 @@ function comprobarJugada() {
     else{
         cartasPlayer.appendChild(jugadaPlayer.querySelector(".carta"));
         cartasMachine.appendChild(jugadaMachine.querySelector(".carta"));
-        cartasMachine.sort((a,b)=> a[0] - b[0]);
+        //console.log(cartasMaquina);
+        cartasMaquina.sort((a,b)=> a[0] - b[0]);
         cartasPlayer.sort((a,b)=> a[0] - b[0]);
         if (juegaLaMaquina){
             turnoDeMaquina();
@@ -169,11 +171,12 @@ function comprobarJugada() {
 
 async function turnoDeMaquina() {
     let cartasMaquin = document.querySelectorAll("#machine .carta");
-    let cartaMaquina = cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)]; //elegirCarta();
-
-    cartaMaquina.querySelector("img.dorso").remove();
-    jugadaMachine.appendChild(cartaMaquina);
-
+    let cartaMaquina = cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)]; //elegirCarta()
+    //console.log(machine.children)
+    if (cartaMaquina !== undefined){
+        cartaMaquina.querySelector("img.dorso").remove();
+        jugadaMachine.appendChild(cartaMaquina);
+    }
     if (cuentaCartas() >= 2) {
         await comprobarJugada();
     }
