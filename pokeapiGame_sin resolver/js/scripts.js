@@ -73,12 +73,35 @@ function cuentaCartas(){
 
 //cuando haya dos cartas en medio comprobar quien gana
 function comprobarJugada() {
+    // if para comprobar si gana la maquina
     if (parseInt(jugadaMachine.querySelector(".carta .experiencia").innerText) >
         parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText)){
+
         let cartasJugadas = play.querySelectorAll(".carta");
+
         for (carta of cartasJugadas) {
             cartasMachine.appendChild(carta);
             totalMachine.innerText = parseInt(totalMachine.innerText) + parseInt(carta.querySelector(".experiencia").innerText);
+            if (machine.children.length === 0){
+                if (totalPlayer.innerText > totalMachine.innerText){
+                    cartel.innerText = "Ha ganado el jugador";
+                    desocultarCartel();
+                    let boton = document.createElement("button");
+                    boton.id = "volveraJugar";
+                    boton.innerText = "Volver a Jugar";
+                    cartel.appendChild(boton);
+                    volverJugar();
+                }
+                else if (totalPlayer.innerText < totalMachine.innerText){
+                    cartel.innerText = "Ha ganado la maquina";
+                    desocultarCartel();
+                    let boton = document.createElement("button");
+                    boton.id = "volveraJugar";
+                    boton.innerText = "Volver a Jugar";
+                    cartel.appendChild(boton);
+                    volverJugar();
+                }
+            }
             if (totalMachine.innerText >= 1000){
                 cartel.innerText = "Ha ganado la maquina";
                 desocultarCartel();
@@ -92,12 +115,35 @@ function comprobarJugada() {
         }
         turnoDeMaquina();
     }
+    //if para comprobar si gana el jugador
     else if (parseInt(jugadaMachine.querySelector(".carta .experiencia").innerText) <
         parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText)){
+
         let cartasJugadas = play.querySelectorAll(".carta");
+
         for (carta of cartasJugadas) {
             cartasPlayer.appendChild(carta);
             totalPlayer.innerText = parseInt(totalPlayer.innerText) + parseInt(carta.querySelector(".experiencia").innerText);
+            if (player.children.length === 0){
+                if (totalPlayer.innerText > totalMachine.innerText){
+                    cartel.innerText = "Ha ganado el jugador";
+                    desocultarCartel();
+                    let boton = document.createElement("button");
+                    boton.id = "volveraJugar";
+                    boton.innerText = "Volver a Jugar";
+                    cartel.appendChild(boton);
+                    volverJugar();
+                }
+                else if (totalPlayer.innerText < totalMachine.innerText){
+                    cartel.innerText = "Ha ganado la maquina";
+                    desocultarCartel();
+                    let boton = document.createElement("button");
+                    boton.id = "volveraJugar";
+                    boton.innerText = "Volver a Jugar";
+                    cartel.appendChild(boton);
+                    volverJugar();
+                }
+            }
             if (totalPlayer.innerText >= 1000){
                 cartel.innerText = "Ha ganado el jugador";
                 desocultarCartel();
@@ -109,34 +155,29 @@ function comprobarJugada() {
             }
         }
     }
+    // else para cuando hay empate
     else{
         cartasPlayer.appendChild(jugadaPlayer.querySelector(".carta"));
         cartasMachine.appendChild(jugadaMachine.querySelector(".carta"));
-        cartasMaquina.sort((a,b)=> a[0] - b[0]);
-        cartaPlayer.sort((a,b)=> a[0] - b[0]);
-
+        cartasMachine.sort((a,b)=> a[0] - b[0]);
+        cartasPlayer.sort((a,b)=> a[0] - b[0]);
         if (juegaLaMaquina){
             turnoDeMaquina();
         }
-
     }
 }
 
 async function turnoDeMaquina() {
     let cartasMaquin = document.querySelectorAll("#machine .carta");
-    let cartaMaquina = elegirCarta();
+    let cartaMaquina = cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)]; //elegirCarta();
 
-    // Ensure that cartaMaquina is a valid DOM Node
-    cartasMaquin.querySelector("img.dorso").remove();
-    console.log(typeof cartaMaquina);
-    console.log("cartamaquina" + cartaMaquina);
+    cartaMaquina.querySelector("img.dorso").remove();
     jugadaMachine.appendChild(cartaMaquina);
 
     if (cuentaCartas() >= 2) {
         await comprobarJugada();
     }
 }
-
 
 function elegirCarta() {
     let cartaElegida;
@@ -146,10 +187,12 @@ function elegirCarta() {
         let exp = parseInt(jugadaPlayer.querySelector(".carta .experiencia").innerText);
         cartasMaquina = machine.querySelectorAll(".carta");
         let i = 0;
+        //console.log(cartasMaquina[i]);
         while (!cartaElegida || i < cartasMaquina.length){
             //console.log(cartasMaquina[i].document.querySelector(".carta .experiencia").innerText);
 
             //console.log( "?"+(parseInt(cartasMaquina[i].querySelector(".carta .experiencia").innerText)));
+            console.log(cartasMaquina[i]);
             if (parseInt(cartasMaquina[i].querySelector(".experiencia").innerText) > exp){
                 cartaElegida = cartasMaquina[i];
             }
