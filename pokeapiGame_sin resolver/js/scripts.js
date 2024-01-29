@@ -1,9 +1,8 @@
 let totalCartas = 10;
-let cartasMaquinas =[];
+let cartasMaquina =[];
 let cartasJugador = [];
 let pokemons;
 let juegaLaMaquina = false;
-let cartasMaquina;
 
 
 window.onload = async () =>{
@@ -54,7 +53,7 @@ function turnoSalida(){
     // Maquina - 0
     //Jugador - 1
     let turno = Math.floor(Math.random() * 2);
-    
+
     if (!turno){
         reportero.innerHTML = '<img src="img/progress.gif">'+"Juega la máquina";
         turnoDeMaquina();
@@ -62,7 +61,6 @@ function turnoSalida(){
     }
     else {
         reportero.innerText = "Juega el jugador";
-
     }
 }
 
@@ -160,9 +158,7 @@ function comprobarJugada() {
     else{
         cartasPlayer.appendChild(jugadaPlayer.querySelector(".carta"));
         cartasMachine.appendChild(jugadaMachine.querySelector(".carta"));
-        //console.log(cartasMaquina);
-        cartasMaquina.sort((a,b)=> a[0] - b[0]);
-        cartasPlayer.sort((a,b)=> a[0] - b[0]);
+
         if (juegaLaMaquina){
             turnoDeMaquina();
         }
@@ -171,7 +167,7 @@ function comprobarJugada() {
 
 async function turnoDeMaquina() {
     let cartasMaquin = document.querySelectorAll("#machine .carta");
-    let cartaMaquina = cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)]; //elegirCarta()
+    let cartaMaquina = elegirCarta(); //cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)];
     //console.log(machine.children)
     if (cartaMaquina !== undefined){
         cartaMaquina.querySelector("img.dorso").remove();
@@ -195,7 +191,7 @@ function elegirCarta() {
             //console.log(cartasMaquina[i].document.querySelector(".carta .experiencia").innerText);
 
             //console.log( "?"+(parseInt(cartasMaquina[i].querySelector(".carta .experiencia").innerText)));
-            console.log(cartasMaquina[i]);
+            console.log("cartasMaquina[i]"+ cartasMaquina[i]);
             if (parseInt(cartasMaquina[i].querySelector(".experiencia").innerText) > exp){
                 cartaElegida = cartasMaquina[i];
             }
@@ -213,8 +209,8 @@ function elegirCarta() {
         }
     } else{
        //la maquina elige una carta random
-        let aleatorio = Math.floor(Math.random() * cartasMaquinas.length);
-        cartaElegida = cartasMaquinas[aleatorio - 1]; // Restamos 1 para ajustar al índice del array
+        let aleatorio = Math.floor(Math.random() * cartasMaquina.length);
+        cartaElegida = cartasMaquina[aleatorio - 1]; // Restamos 1 para ajustar al índice del array
     }
     console.log("cartaElegida", cartaElegida);
     return cartaElegida;
@@ -249,12 +245,13 @@ async function cargarPokemons() {
                     cartasJugador.push(await cargarPokemon(pokemons[pos].url))
                 }
                 else{
-                    cartasMaquinas.push(await cargarPokemon(pokemons[pos].url));
+                    cartasMaquina.push(await cargarPokemon(pokemons[pos].url));
                 }
                 i++;
             }
         }
     }
+    cartasMaquina.sort((a,b)=> a[0] - b[0]);
     cargarCartas();
 }
 
@@ -284,7 +281,7 @@ function cargarCartas() {
 
         let exp = document.createElement("div");
         exp.classList.add("experiencia");
-        exp.innerText = cartasJugador[i][0];
+        exp.innerText = exp.innerText = cartasJugador[i][0];
 
         let img = document.createElement("img");
         img.src = cartasJugador[i][2];
@@ -299,21 +296,21 @@ function cargarCartas() {
     }
 
     // bucle para las cartas de la maquina
-    for (let i = 0; i < cartasMaquinas.length; i++) {
+    for (let i = 0; i < cartasMaquina.length; i++) {
         let carta = document.createElement("div");
         carta.classList.add("carta");
 
         let exp = document.createElement("div");
         exp.classList.add("experiencia");
-        exp.innerText = cartasMaquinas[i][0];
+        exp.innerText = exp.innerText = cartasMaquina[i][0];
         carta.appendChild(exp);
 
         let img = document.createElement("img");
-        img.src = cartasMaquinas[i][2];
+        img.src = cartasMaquina[i][2];
         carta.appendChild(img);
 
         let nombre = document.createElement("div");
-        nombre.innerText= cartasMaquinas[i][1];
+        nombre.innerText= cartasMaquina[i][1];
         carta.appendChild(nombre);
 
         let dorso = document.createElement("img");
