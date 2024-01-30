@@ -29,7 +29,7 @@ let idUser = 0;
 var parametros = {tipo:"", clase:"", id:"", texto:"", src:"", href:"", value:""};
 
 
-window.onload = async function() {
+window.onload = async () => {
     //Seleccionamos el SELECT
     usuariosSel = document.querySelector("#usuarios");
     //Añadimos change al SELECT
@@ -59,15 +59,18 @@ window.onload = async function() {
 async function cargarUsuarios() {
     let url = "https://jsonplaceholder.typicode.com/users";
     await fetch(url).then(data => data.json()).then(info =>{
+
         for (let i = 0; i < info.length; i++) {
             let option = document.createElement("option");
             option.value = info[i].id;
             option.innerText = info[i].name;
             document.getElementById("usuarios").appendChild(option);
-            let nombre = info[i].name.split(" ");
-            console.log(nombre[0]);
-            estimarGenero(info[0].name.gender);
+            nom = info[i].name.split(" ");
+            console.log(nom[0]);
+            //let le = "Leanne";
         }
+        //calcularEdad(nom[0].age)
+        //cargarCiudad(info.lat, info.lng)
     });
 }
 
@@ -75,13 +78,25 @@ async function cargarUsuarios() {
 async function estimarGenero(nombre) {
     let url = `https://api.genderize.io?name=${nombre}`;
     await fetch(url).then(data => data.json()).then(info => {
-        console.log(info);
+        return info.gender;
     });
 }
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
     let url = `https://api.agify.io/?name=${nombre}`;
-    //A COMPLETAR
+    await fetch(url).then(data => data.json()).then(info =>{
+        console.log(""+info);
+
+        //return info.name.age;
+    });
+}
+
+//Buscamos la ciudad sugerida.
+async function cargarCiudad(lat, lng) {
+    let url = `https://geocode.xyz/${lat},${lng}?json=1`;
+    await fetch(url).then(data => data.json()).then(info => {
+       console.log("cargarciudad"+info);
+    });
 }
 
 //Cargamos el JSON de usuarios en el select
@@ -96,11 +111,7 @@ function crearElemento(atributos) {
     //A COMPLETAR SI SE QUIERE
 }
 
-//Buscamos la ciudad sugerida.
-async function cargarCiudad(lat, lng) {
-    let url = `https://geocode.xyz/${lat},${lng}?json=1`;
-    //A COMPLETAR
-}
+
 //Filtrado de info utilizando array.filter u otro sistema
 async function mostrarDatosUsuario() {
     zonaPosts.innerHTML = "";
