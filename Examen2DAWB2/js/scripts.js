@@ -24,7 +24,10 @@ let mostrarPosts;
 //Boton Fotos
 let mostrarFotos;
 
+let edad;
+
 let idUser = 0;
+
 
 var parametros = {tipo:"", clase:"", id:"", texto:"", src:"", href:"", value:""};
 
@@ -64,24 +67,27 @@ async function cargarUsuarios() {
 
 //Función que devuelve el sexo del usuario
 async function estimarGenero(nombre) {
-    partes = nombre.split(" ");
+    let partes = nombre.split(" ");
     nombre = partes[0];
     let url = `https://api.genderize.io?name=${nombre}`;
-    await fetch(url).then(data => data.json()).then(info => {
+    fetch(url).then(data => data.json()).then(info => {
+        console.log(info);
     });
 }
+
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
+    let partes = nombre.split(" ");
+    nombre = partes[0];
     let url = `https://api.agify.io/?name=${nombre}`;
-    await fetch(url).then(data => data.json()).then(info =>{
-
+    fetch(url).then(data => data.json()).then(info =>{
     });
 }
 
 //Buscamos la ciudad sugerida.
 async function cargarCiudad(lat, lng) {
     let url = `https://geocode.xyz/${lat},${lng}?json=1`;
-    await fetch(url).then(data => data.json()).then(info => {
+    fetch(url).then(data => data.json()).then(info => {
 
     });
 }
@@ -99,20 +105,43 @@ function cargarSelectUsuarios() {
 }
 
 //Función genérica para la creación de elementos
-function crearElemento(div, inner, clas, info) {
-    div.createElement("div");
-    inner.innerText;
-}
 
+async function crearElemento(titulo, descripcion) {
+    const divTitulo = document.createElement("div");
+    divTitulo.innerText = titulo + ":";
+    divTitulo.classList.add("titulo");
+    document.getElementById("info").appendChild(divTitulo);
+
+    const divDescripcion = document.createElement("div");
+    divDescripcion.classList.add("descripción");
+
+    if (titulo === "Email" || titulo === "Web") {
+        let anchor = document.createElement("a");
+
+        if (titulo === "Email") {
+            anchor.href = "mailto:" + descripcion;
+        } else if (titulo === "Web") {
+            anchor.href = descripcion;
+            anchor.target = "_blank";
+        }
+
+        anchor.innerText = descripcion;
+        divDescripcion.appendChild(anchor);
+    } else {
+        divDescripcion.innerText = descripcion;
+    }
+
+    document.getElementById("info").appendChild(divDescripcion);
+}
 
 //Filtrado de info utilizando array.filter u otro sistema
 async function mostrarDatosUsuario() {
-    let nombrePrimero = this.value-1;
+    let nombrePrimero = this.value - 1;
+    console.log("user" + nombrePrimero);
     document.getElementById("info").innerText = "";
     zonaPosts.innerHTML = "";
     zonaAlbums.innerHTML = "";
     zonaFotos.innerHTML = "";
-    console.log(this.value);
     botonera.classList.remove("oculto");
     let fondo = document.createElement("div");
     let foto = document.createElement("img");
@@ -120,73 +149,32 @@ async function mostrarDatosUsuario() {
     foto.src = "img/female.png";
     fondo.appendChild(foto);
     datosUsuarios.appendChild(fondo);
+    await estimarGenero(usuarios[nombrePrimero]);
 
-    if (usuarios[nombrePrimero].gender === "female"){
+    /*if (await estimarGenero(usuarios[nombrePrimero].gender)) {
         foto.src = "img/female.png";
-
-    }
-    else if (usuarios[nombrePrimero].gender === "male"){
-        foto.src = "img/male.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
     }
+    else {
+        foto.src = "img/male.png";
+        fondo.appendChild(foto);
+        info.appendChild(fondo);
+    }*/
 
-    let divNombre = document.createElement("div");
-    divNombre.innerText = "Nombre:";
-    divNombre.classList.add("titulo");
-    document.getElementById("info").appendChild(divNombre);
+    /*let edad = usuarios[await calcularEdad(nombrePrimero)].age;
 
-    let divDescripcioNombre = document.createElement("div");
-    divDescripcioNombre.innerText = usuarios[this.value-1].name;
-    divDescripcioNombre.classList.add("descripción");
-    document.getElementById("info").appendChild(divDescripcioNombre);
-
-    let divEdad = document.createElement("div");
-    divEdad.innerText = "Edad:";
-    divEdad.classList.add("titulo");
-    document.getElementById("info").appendChild(divEdad);
-
-    let divDescripcionEdad = document.createElement("div");
-    divDescripcionEdad.innerText = usuarios[this.value-1].age;
-    divDescripcionEdad.classList.add("descripción");
-    document.getElementById("info").appendChild(divDescripcionEdad);
-
-    let divEmail = document.createElement("div");
-    divEmail.innerText = "Email:";
-    divEmail.classList.add("titulo");
-    document.getElementById("info").appendChild(divEmail);
-
-    let divDescripcionEmail = document.createElement("div");
-    divDescripcionEmail.innerText = usuarios[this.value-1].email;
-    divDescripcionEmail.classList.add("descripción");
-    document.getElementById("info").appendChild(divDescripcionEmail);
-
-  /*  let aEnDescEmail = document.createElement("a");
-    aEnDescEmail.href = */
-
-    let divCiudad = document.createElement("div");
-    divCiudad.innerText = "Ciudad:";
-    divCiudad.classList.add("titulo");
-    document.getElementById("info").appendChild(divCiudad);
-
-    let divDescripcionCiudad = document.createElement("div");
-    divDescripcionCiudad.innerText = "Zeewolf Fracture Zone";
-    divDescripcionCiudad.classList.add("descripción");
-    document.getElementById("info").appendChild(divDescripcionCiudad);
-
-    let divWeb = document.createElement("div");
-    divWeb.innerText = "Web:";
-    divWeb.classList.add("titulo");
-    document.getElementById("info").appendChild(divWeb);
-
-    let divDescripcionWeb = document.createElement("div");
-    divDescripcionWeb.innerText = "hildegard.org";
-    divDescripcionWeb.classList.add("descripción");
-    document.getElementById("info").appendChild(divDescripcionWeb);
+    console.log("edad2"+edad)*/
+    let edad = await calcularEdad(usuarios[nombrePrimero].name);
+    console.log(edad)
+    //console.log(nombrePrimero);
+    await crearElemento("Nombre", usuarios[nombrePrimero].name);
+    await crearElemento("Edad",   edad + " años");
+    await crearElemento("Email", usuarios[nombrePrimero].email);
+    await crearElemento("Ciudad", "Zeewolf Fracture Zone"); // Puedes cambiar esta parte según tus datos reales
+    await crearElemento("Web", "hildegard.org"); // Puedes cambiar esta parte según tus datos reales
 
 
-
-    await estimarGenero(usuarios[nombrePrimero].name);
 }
 
 //Reiniciamos los parámetros para crear elementos.
