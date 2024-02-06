@@ -60,7 +60,7 @@ window.onload = async () => {
 //Obtenemos el JSON de la dirección indicada
 async function cargarUsuarios() {
     let url = "https://jsonplaceholder.typicode.com/users";
-    await fetch(url).then(data => data.json()).then(info =>{
+    fetch(url).then(data => data.json()).then(info =>{
         usuarios = info;
     });
 }
@@ -70,11 +70,7 @@ async function estimarGenero(nombre) {
     let url = `https://api.genderize.io?name=${nombre}`;
     fetch(url).then(data => data.json()).then(info => {
         console.log(info.gender);
-<<<<<<< HEAD
-       return info.gender;
-=======
         return info.gender;
->>>>>>> 04e43a1 (cambios agregados)
     });
 }
 
@@ -88,7 +84,7 @@ async function calcularEdad(nombre) {
     nombre2 = partes[0];
     let url = `https://api.agify.io/?name=${nombre2}`;
     await fetch(url).then(data => data.json()).then(info =>{
-        return info.age
+        return info.age;
         //console.log(info.age);
     });
 }
@@ -97,7 +93,6 @@ async function calcularEdad(nombre) {
 async function cargarCiudad(lat, lng) {
     let url = `https://geocode.xyz/${lat},${lng}?json=1`;
     fetch(url).then(data => data.json()).then(info => {
-
     });
 }
 
@@ -183,9 +178,7 @@ async function mostrarDatosUsuario() {
     await crearElemento("Edad",   await calcularEdad(usuarios[nombrePrimero]) + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
     await crearElemento("Ciudad", usuarios[nombrePrimero].address.city); // Puedes cambiar esta parte según tus datos reales
-    await crearElemento("Web", "hildegard.org"); // Puedes cambiar esta parte según tus datos reales
-
-
+    await crearElemento("Web", usuarios[nombrePrimero].website); // Puedes cambiar esta parte según tus datos reales
 }
 
 //Reiniciamos los parámetros para crear elementos.
