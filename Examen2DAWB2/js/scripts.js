@@ -87,8 +87,7 @@ async function estimarGenero(nombre) {
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
     let partes = nombre.name.split(" ");
-    nombre2 = partes[0];
-    let url = `https://api.agify.io/?name=${nombre2}`;
+    let url = `https://api.agify.io/?name=${partes[0]}`;
     await fetch(url).then(data => data.json()).then(info =>{
         console.log(info.age);
         return info.age;
