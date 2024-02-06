@@ -61,7 +61,7 @@ window.onload = async () => {
 async function cargarUsuarios() {
     let url = "https://jsonplaceholder.typicode.com/users";
     await fetch(url).then(data => data.json()).then(info =>{
-       usuarios = info;
+        usuarios = info;
     });
 }
 
@@ -70,7 +70,11 @@ async function estimarGenero(nombre) {
     let url = `https://api.genderize.io?name=${nombre}`;
     fetch(url).then(data => data.json()).then(info => {
         console.log(info.gender);
+<<<<<<< HEAD
        return info.gender;
+=======
+        return info.gender;
+>>>>>>> 04e43a1 (cambios agregados)
     });
 }
 
