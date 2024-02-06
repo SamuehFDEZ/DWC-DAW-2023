@@ -67,19 +67,20 @@ async function cargarUsuarios() {
 
 //Función que devuelve el sexo del usuario
 async function estimarGenero(nombre) {
-    let partes = nombre.split(" ");
-    nombre = partes[0];
     let url = `https://api.genderize.io?name=${nombre}`;
     fetch(url).then(data => data.json()).then(info => {
-        console.log(info);
+        console.log(info.gender);
+       return info.gender;
     });
 }
 
+
+
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
-    console.log(nombre.name);
+    //console.log(nombre.name);
     let partes = nombre.name.split(" ");
-    console.log(partes);
+    //console.log(partes);
     nombre2 = partes[0];
     let url = `https://api.agify.io/?name=${nombre2}`;
     await fetch(url).then(data => data.json()).then(info =>{
@@ -141,7 +142,9 @@ async function crearElemento(titulo, descripcion) {
 //Filtrado de info utilizando array.filter u otro sistema
 async function mostrarDatosUsuario() {
     let nombrePrimero = this.value - 1;
-    console.log("user" + nombrePrimero);
+    let nombrePartido = usuarios[nombrePrimero].name.split(" ");
+    let nombre = nombrePartido[0];
+    console.log("Nombre:", nombre); // Log to check the value
     document.getElementById("info").innerText = "";
     zonaPosts.innerHTML = "";
     zonaAlbums.innerHTML = "";
@@ -153,24 +156,24 @@ async function mostrarDatosUsuario() {
     foto.src = "img/female.png";
     fondo.appendChild(foto);
     datosUsuarios.appendChild(fondo);
-    //await estimarGenero(usuarios[nombrePrimero]);
+    console.log(await estimarGenero(nombre));
 
-    /*if (await estimarGenero(usuarios[nombrePrimero].gender)) {
+    if (await estimarGenero(nombre)) {
+        foto.src = "img/male.png";
+        fondo.appendChild(foto);
+        info.appendChild(fondo);
+    }
+    else if (await estimarGenero(nombre)) {
         foto.src = "img/female.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
     }
-    else {
-        foto.src = "img/male.png";
-        fondo.appendChild(foto);
-        info.appendChild(fondo);
-    }*/
 
     /*let edad = usuarios[await calcularEdad(nombrePrimero)].age;
 
     console.log("edad2"+edad)*/
     //let edad = await calcularEdad(usuarios[nombrePrimero].name);
-    console.log(edad)
+    //console.log(edad)
     //console.log(nombrePrimero);
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
     await crearElemento("Edad",   await calcularEdad(usuarios[nombrePrimero]) + " años");
