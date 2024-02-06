@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<script>
+
+	window.onload = () =>{
+		document.body.appendChild(crearDivs("div", "", "rojo", null));
+	}
+
+	function crearDivs(tipoElemento, identificador, clase, contenido){
+		let elemento = document.createElement(tipoElemento);
+		if (identificador){
+			elemento.id = identificador;
+		}
+		if (clase){
+			elemento.classList.add(clase);
+		}
+		if (contenido){
+			elemento.innerText = contenido;
+		}
+
+		return elemento; 
+	}
+
+</script>
+<body>
+	
+</body>
+</html>
+
+

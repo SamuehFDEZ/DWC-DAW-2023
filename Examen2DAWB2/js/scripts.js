@@ -2,7 +2,6 @@
 let usuariosSel;
 //JSON con todos los usuarios
 let usuarios;
-
 //Div donde cargaremos los datos del usuario seleccionado
 let datosUsuarios;
 
@@ -53,14 +52,25 @@ window.onload = async () => {
     botonera = document.querySelector("#botonera");
 
     await cargarUsuarios();
-
     cargarSelectUsuarios();
+}
+
+//Cargamos el JSON de usuarios en el select
+//<option value=[id del usuario]>[nombre del usuario]</option>
+function cargarSelectUsuarios() {
+    reiniciarParametros();
+    for (const user of usuarios) {
+        let option = document.createElement("option");
+        option.value = user.id;
+        option.innerText = user.name;
+        usuariosSel.appendChild(option);
+    }
 }
 
 //Obtenemos el JSON de la dirección indicada
 async function cargarUsuarios() {
     let url = "https://jsonplaceholder.typicode.com/users";
-    fetch(url).then(data => data.json()).then(info =>{
+    await fetch(url).then(data => data.json()).then(info =>{
         usuarios = info;
     });
 }
@@ -74,18 +84,14 @@ async function estimarGenero(nombre) {
     });
 }
 
-
-
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
-    //console.log(nombre.name);
     let partes = nombre.name.split(" ");
-    //console.log(partes);
     nombre2 = partes[0];
     let url = `https://api.agify.io/?name=${nombre2}`;
     await fetch(url).then(data => data.json()).then(info =>{
+        console.log(info.age);
         return info.age;
-        //console.log(info.age);
     });
 }
 
@@ -94,18 +100,6 @@ async function cargarCiudad(lat, lng) {
     let url = `https://geocode.xyz/${lat},${lng}?json=1`;
     fetch(url).then(data => data.json()).then(info => {
     });
-}
-
-//Cargamos el JSON de usuarios en el select
-//<option value=[id del usuario]>[nombre del usuario]</option>
-function cargarSelectUsuarios() {
-    reiniciarParametros();
-    for (const usuario of usuarios) {
-        let option = document.createElement("option");
-        option.value = usuario.id;
-        option.innerText = usuario.name;
-        document.getElementById("usuarios").appendChild(option);
-    }
 }
 
 //Función genérica para la creación de elementos
@@ -168,12 +162,6 @@ async function mostrarDatosUsuario() {
         info.appendChild(fondo);
     }
 
-    /*let edad = usuarios[await calcularEdad(nombrePrimero)].age;
-
-    console.log("edad2"+edad)*/
-    //let edad = await calcularEdad(usuarios[nombrePrimero].name);
-    //console.log(edad)
-    //console.log(nombrePrimero);
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
     await crearElemento("Edad",   await calcularEdad(usuarios[nombrePrimero]) + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
