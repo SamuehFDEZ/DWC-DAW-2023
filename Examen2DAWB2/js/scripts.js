@@ -150,18 +150,18 @@ async function mostrarDatosUsuario() {
     foto.src = "img/female.png";
     fondo.appendChild(foto);
     datosUsuarios.appendChild(fondo);
-    //console.log(await estimarGenero(nombre));
+    console.log(await estimarGenero(usuarios[nombrePrimero],name));
 
-/*    if (await estimarGenero(usuarios[nombrePrimero.gender])) {
+    if (await estimarGenero(usuarios[nombrePrimero],name)) {
         foto.src = "img/male.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
     }
-    else if (await estimarGenero(usuarios[nombrePrimero.gender])) {
+    else if (await estimarGenero(usuarios[nombrePrimero].name)) {
         foto.src = "img/female.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
-    }*/
+    }
     //console.log(usuarios[nombrePrimero]);
     let edad = 20;
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
