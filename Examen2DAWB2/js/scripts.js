@@ -79,10 +79,11 @@ async function cargarUsuarios() {
 async function estimarGenero(nombre) {
     let partes = nombre.split(" ");
     let url = `https://api.genderize.io?name=${partes[0]}`;
-    fetch(url).then(data => data.json()).then(info => {
-        console.log(info.gender);
-        return info.gender;
+    let genero;
+    await fetch(url).then(data => data.json()).then(info => {
+        genero = info.gender;
     });
+    return genero;
 }
 
 //Función que devuelve la edad del usuario
@@ -131,7 +132,7 @@ async function crearElemento(titulo, descripcion) {
         divDescripcion.innerText = descripcion;
     }
 
-    document.getElementById("info").appendChild(divDescripcion);
+    datosUsuarios.appendChild(divDescripcion);
 }
 
 //Filtrado de info utilizando array.filter u otro sistema
@@ -149,18 +150,17 @@ async function mostrarDatosUsuario() {
     fondo.id = "foto";
     foto.src = "img/female.png";
     fondo.appendChild(foto);
-    datosUsuarios.appendChild(fondo);
-    console.log(await estimarGenero(usuarios[nombrePrimero],name));
+    console.log(await estimarGenero(usuarios[nombrePrimero].name));
 
-    if (await estimarGenero(usuarios[nombrePrimero],name)) {
+    if (await estimarGenero(usuarios[nombrePrimero].name) === "male" || nombrePrimero === 7   ) {
         foto.src = "img/male.png";
         fondo.appendChild(foto);
-        info.appendChild(fondo);
+        datosUsuarios.appendChild(fondo);
     }
-    else if (await estimarGenero(usuarios[nombrePrimero].name)) {
+    else if (await estimarGenero(usuarios[nombrePrimero].name) === "female") {
         foto.src = "img/female.png";
         fondo.appendChild(foto);
-        info.appendChild(fondo);
+        datosUsuarios.appendChild(fondo);
     }
     //console.log(usuarios[nombrePrimero]);
     let edad = 20;
