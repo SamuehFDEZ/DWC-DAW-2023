@@ -77,7 +77,8 @@ async function cargarUsuarios() {
 
 //Función que devuelve el sexo del usuario
 async function estimarGenero(nombre) {
-    let url = `https://api.genderize.io?name=${nombre}`;
+    let partes = nombre.split(" ");
+    let url = `https://api.genderize.io?name=${partes[0]}`;
     fetch(url).then(data => data.json()).then(info => {
         console.log(info.gender);
         return info.gender;
@@ -86,18 +87,20 @@ async function estimarGenero(nombre) {
 
 //Función que devuelve la edad del usuario
 async function calcularEdad(nombre) {
-    let partes = nombre.name.split(" ");
+    let partes = nombre.split(" ");
+    let edad;
     let url = `https://api.agify.io/?name=${partes[0]}`;
     await fetch(url).then(data => data.json()).then(info =>{
         console.log(info.age);
-        return info.age;
+        edad = info.age;
     });
+    return edad;
 }
 
 //Buscamos la ciudad sugerida.
 async function cargarCiudad(lat, lng) {
     let url = `https://geocode.xyz/${lat},${lng}?json=1`;
-    fetch(url).then(data => data.json()).then(info => {
+    await fetch(url).then(data => data.json()).then(info => {
     });
 }
 
@@ -136,7 +139,6 @@ async function mostrarDatosUsuario() {
     let nombrePrimero = this.value - 1;
     let nombrePartido = usuarios[nombrePrimero].name.split(" ");
     let nombre = nombrePartido[0];
-    console.log("Nombre:", nombre); // Log to check the value
     document.getElementById("info").innerText = "";
     zonaPosts.innerHTML = "";
     zonaAlbums.innerHTML = "";
@@ -148,24 +150,28 @@ async function mostrarDatosUsuario() {
     foto.src = "img/female.png";
     fondo.appendChild(foto);
     datosUsuarios.appendChild(fondo);
-    console.log(await estimarGenero(nombre));
+    //console.log(await estimarGenero(nombre));
 
-    if (await estimarGenero(nombre)) {
+/*    if (await estimarGenero(usuarios[nombrePrimero.gender])) {
         foto.src = "img/male.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
     }
-    else if (await estimarGenero(nombre)) {
+    else if (await estimarGenero(usuarios[nombrePrimero.gender])) {
         foto.src = "img/female.png";
         fondo.appendChild(foto);
         info.appendChild(fondo);
-    }
-
+    }*/
+    //console.log(usuarios[nombrePrimero]);
+    let edad = 20;
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
-    await crearElemento("Edad",   await calcularEdad(usuarios[nombrePrimero]) + " años");
+    await crearElemento("Edad",/*await calcularEdad(usuarios[nombrePrimero].name)*/+ edad + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
     await crearElemento("Ciudad", usuarios[nombrePrimero].address.city); // Puedes cambiar esta parte según tus datos reales
     await crearElemento("Web", usuarios[nombrePrimero].website); // Puedes cambiar esta parte según tus datos reales
+
+    idUser = usuarios[this.value-1].id;
+
 }
 
 //Reiniciamos los parámetros para crear elementos.
@@ -173,39 +179,75 @@ function reiniciarParametros() {
     parametros = {tipo:"", clase:"", id:"", texto:"", src:"", href:"", value:""};
 }
 
+/*function divsPost(div, clase, ide, texto){
+    let ele = document.createElement(div);
+
+}*/
+
 //Mostramos los posts en el div con id="posts"
 async function showPosts() {
     zonaPosts.innerHTML = "";
-    //A COMPLETAR
+    zonaAlbums.innerHTML = "";
+    await getPosts(idUser);
 }
 
 //Obtenemos los posts del servidor
-async function getPosts() {
+async function getPosts(idUser) {
     url = `https://jsonplaceholder.typicode.com/users/${idUser}/posts`;
-    //A COMPLETAR
+    await fetch(url).then(data => data.json()).then(info => {
+        for (const infoElement of info) {
+            let divPost = document.createElement("div");
+            let divTitular = document.createElement("div");
+            let divCuerpo = document.createElement("div");
+            divCuerpo.classList.add("cuerpo")
+            divCuerpo.id = "";
+            divTitular.classList.add("titular")
+            divTitular.id = "";
+            divTitular.innerText = infoElement.title;
+            divPost.classList.add("post");
+            divPost.id = "";
+            divCuerpo.innerText = infoElement.body;
+            divPost.appendChild(divTitular);
+            divPost.appendChild(divCuerpo);
+            posts.appendChild(divPost);
+        }
+    });
 }
 
 //Mostramos los albumes en el div con id="albumes"
 async function showAlbums() {
     zonaPosts.innerHTML = "";
     zonaAlbums.innerHTML = "";
-    //A COMPLETAR
+   await getAlbums(idUser);
 }
 
 //Obtenemos los albumes del servidor
-async function getAlbums() {
+async function getAlbums(idUser) {
     url = `https://jsonplaceholder.typicode.com/users/${idUser}/posts`;
-    //A COMPLETAR
+    await fetch(url).then(data => data.json()).then(info =>{
+       for (const infoElement of info) {
+            let album = document.createElement("div");
+            let anchor = document.createElement("a");
+            anchor.classList.add("album");
+            anchor.id = infoElement.id;
+            anchor.href =  "#"/*await showFotos()*/;
+            anchor.innerText = infoElement.title;
+            album.appendChild(anchor);
+            albums.appendChild(album);
+        }
+    });
 }
 
 //Mostramos las fotos en el div id="fotos"
 async function showFotos() {
     zonaFotos.innerHTML = "";
-    //A COMPLETAR
+    await getFotos(idAlbum);
 }
 
 //Obtenemos las fotos del servidor
 async function getFotos(idAlbum) {
     url = `https://jsonplaceholder.typicode.com/albums/${idAlbum}/photos`;
-    //A COMPLETAR
+    await fetch(url).then(data => data.json()).then(info =>{
+        console.log(info);
+    }) ;
 }
