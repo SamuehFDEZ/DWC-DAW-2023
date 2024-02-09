@@ -23,9 +23,9 @@ let mostrarPosts;
 //Boton Fotos
 let mostrarFotos;
 
-let edad;
 
 let idUser = 0;
+
 
 
 var parametros = {tipo:"", clase:"", id:"", texto:"", src:"", href:"", value:""};
@@ -219,13 +219,14 @@ async function showAlbums() {
 //Obtenemos los albumes del servidor
 async function getAlbums(idUser) {
     url = `https://jsonplaceholder.typicode.com/users/${idUser}/posts`;
-    await fetch(url).then(data => data.json()).then(info =>{
+    await fetch(url).then(data => data.json()).then(async info =>{
        for (const infoElement of info) {
             let album = document.createElement("div");
             let anchor = document.createElement("a");
             anchor.classList.add("album");
             anchor.id = infoElement.id;
-            anchor.href =  "#"/*await showFotos()*/;
+            anchor.href =  "#";
+            anchor.addEventListener("click", await showFotos);
             anchor.innerText = infoElement.title;
             album.appendChild(anchor);
             albums.appendChild(album);
@@ -234,15 +235,21 @@ async function getAlbums(idUser) {
 }
 
 //Mostramos las fotos en el div id="fotos"
-async function showFotos() {
+async function showFotos(event) {
     zonaFotos.innerHTML = "";
-    await getFotos(idAlbum);
+    const idAlbum = event.target.id; // Obtiene el ID del álbum haciendo clic en el enlace
+    await getFotos(idAlbum); // Llama a getFotos con el ID del álbum
 }
 
 //Obtenemos las fotos del servidor
 async function getFotos(idAlbum) {
     url = `https://jsonplaceholder.typicode.com/albums/${idAlbum}/photos`;
     await fetch(url).then(data => data.json()).then(info =>{
-        console.log(info);
-    }) ;
+        for (let i = 0; i < info.length; i++) {
+            let img = document.createElement("img");
+            img.classList.add("foto");
+            img.src = info[i].thumbnailUrl;
+            fotos.appendChild(img);
+        }
+    });
 }
