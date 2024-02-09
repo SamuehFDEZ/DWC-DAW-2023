@@ -138,7 +138,6 @@ async function crearElemento(titulo, descripcion) {
 async function mostrarDatosUsuario() {
     let nombrePrimero = this.value - 1;
     let nombrePartido = usuarios[nombrePrimero].name.split(" ");
-    let nombre = nombrePartido[0];
     document.getElementById("info").innerText = "";
     zonaPosts.innerHTML = "";
     zonaAlbums.innerHTML = "";
@@ -150,7 +149,7 @@ async function mostrarDatosUsuario() {
     foto.src = "img/female.png";
     fondo.appendChild(foto);
 
-    if (await estimarGenero(usuarios[nombrePrimero].name) === "male" || nombrePrimero === 7) {
+    if (await estimarGenero(usuarios[nombrePrimero].name) === "male" || nombrePrimero === 5) {
         foto.src = "img/male.png";
         fondo.appendChild(foto);
         datosUsuarios.appendChild(fondo);
@@ -160,7 +159,11 @@ async function mostrarDatosUsuario() {
         fondo.appendChild(foto);
         datosUsuarios.appendChild(fondo);
     }
+
     let edad = await calcularEdad(usuarios[nombrePrimero].name);
+    if (nombrePrimero === 5){
+        edad = 65;
+    }
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
     await crearElemento("Edad",  edad + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
@@ -175,11 +178,6 @@ async function mostrarDatosUsuario() {
 function reiniciarParametros() {
     parametros = {tipo:"", clase:"", id:"", texto:"", src:"", href:"", value:""};
 }
-
-/*function divsPost(div, clase, ide, texto){
-    let ele = document.createElement(div);
-
-}*/
 
 //Mostramos los posts en el div con id="posts"
 async function showPosts() {
