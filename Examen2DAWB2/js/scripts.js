@@ -92,7 +92,6 @@ async function calcularEdad(nombre) {
     let edad;
     let url = `https://api.agify.io/?name=${partes[0]}`;
     await fetch(url).then(data => data.json()).then(info =>{
-        console.log(info.age);
         edad = info.age;
     });
     return edad;
@@ -150,9 +149,8 @@ async function mostrarDatosUsuario() {
     fondo.id = "foto";
     foto.src = "img/female.png";
     fondo.appendChild(foto);
-    console.log(await estimarGenero(usuarios[nombrePrimero].name));
 
-    if (await estimarGenero(usuarios[nombrePrimero].name) === "male" || nombrePrimero === 7   ) {
+    if (await estimarGenero(usuarios[nombrePrimero].name) === "male" || nombrePrimero === 7) {
         foto.src = "img/male.png";
         fondo.appendChild(foto);
         datosUsuarios.appendChild(fondo);
@@ -162,10 +160,9 @@ async function mostrarDatosUsuario() {
         fondo.appendChild(foto);
         datosUsuarios.appendChild(fondo);
     }
-    //console.log(usuarios[nombrePrimero]);
-    let edad = 20;
+    let edad = await calcularEdad(usuarios[nombrePrimero].name);
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
-    await crearElemento("Edad",/*await calcularEdad(usuarios[nombrePrimero].name)*/+ edad + " años");
+    await crearElemento("Edad",  edad + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
     await crearElemento("Ciudad", usuarios[nombrePrimero].address.city); // Puedes cambiar esta parte según tus datos reales
     await crearElemento("Web", usuarios[nombrePrimero].website); // Puedes cambiar esta parte según tus datos reales
