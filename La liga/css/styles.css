@@ -1,0 +1,20 @@
+td {
+    border:1px solid rgb(128, 128, 128);
+    padding:5px;
+    width: 200px;
+    text-align: center;
+    background-color: whitesmoke;
+    box-shadow:3px 3px 5px rgb(128, 128, 128);
+    font-weight: bold;
+}
+td.info {
+    background-color:white;
+    font-weight: normal;
+}
+td.puntos {
+    font-weight: bold;
+    color: blue;
+}
+img.escudo {
+    height: 50px;
+}
