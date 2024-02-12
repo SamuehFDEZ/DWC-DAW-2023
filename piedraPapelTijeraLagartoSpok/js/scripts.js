@@ -63,11 +63,11 @@ function imagenMaquina() {
 function deliverar() {
     document.getElementById("proteccion").className="visible";
     document.getElementById("deliveracion").className="visible";
-    setTimeout(mostrarMensaje,2000);
+    setTimeout(mostrarMensaje,1000);
 }
 
 function mostrarMensaje() {
-    //Mostramos el mensaje en función del resultado de la jugada o de la partida
+    
 }
 
 function cargarTablero() {
@@ -87,7 +87,9 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var idElement = ev.dataTransfer.getData("id");
+    document.getElementById("seleccionado").innerHTML = "";
     this.appendChild(document.getElementById(idElement).cloneNode(true));
     imagenMaquina();
+    deliverar();
 }
 /***************************FIN DRAG AND DROP **************************/
