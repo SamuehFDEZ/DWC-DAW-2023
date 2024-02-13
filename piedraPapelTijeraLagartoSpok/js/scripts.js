@@ -1,3 +1,5 @@
+let jugada = true;
+
 //Mensajes de los resultados de las jugadas
 var mensajes = {
     tipa: "Tijeras cortan papel",
@@ -12,7 +14,13 @@ var mensajes = {
     piti: "Piedra aplasta tijeras"
 }
 
-let imagenes = ["img/piedra.png","img/papel.png", "img/tijera.png", "img/lagarto.png", "img/spock.png"];
+let imagenes = [
+    "img/piedra.png",
+    "img/papel.png",
+    "img/tijera.png",
+    "img/lagarto.png",
+    "img/spock.png"
+];
 
 //Variables que contendrán los elementos HTML que vayamos a necesitar
 
@@ -21,7 +29,6 @@ window.onload = () => {
     cargarTablero();
     asignarElementosHTML();
     cargarEventos();
-
 
     let elementos = document.querySelectorAll(".contitem .item>img");
 
@@ -45,29 +52,59 @@ function cargarEventos() {
 function continuar() {
     //Función que lanzamos cuando pulsamos al botón continuar
     //Volvemos a ocultar el mensaje;
-    document.getElementById("mensaje").className = "visible";
-    document.getElementById("proteccion").className = "visible";
-    document.getElementById("deliveracion").className = "visible";
 
     //Si es una jugada reiniciamos todo menos los contadores de puntos.
+    if (jugada){
+        let enemigo = document.querySelector("#enemigo img");
+        let seleccionado = document.getElementById("seleccionado");
+        document.getElementById("mensaje").className = "visible";
+        console.log(seleccionado.firstElementChild.src);
+        console.log(enemigo.src);
+
+        if (seleccionado.firstElementChild.id == "piedra" && enemigo.id == "tijera"){
+            document.querySelector("#mensaje p").innerHTML = mensajes.piti;
+            console.log(true);
+        }
+
+        document.getElementById("proteccion").className = "visible";
+        document.getElementById("deliveracion").className = "invisible";
+        document.getElementById("continuar").addEventListener("click", () =>{
+            document.getElementById("mensaje").className = "invisible";
+            document.getElementById("proteccion").className = "invisible";
+            document.getElementById("seleccionado").innerHTML = null;
+        });
+
+    }
+    else{
+        document.getElementById("mensaje").className = "invisible";
+        document.getElementById("proteccion").className = "invisible";
+        document.getElementById("deliveracion").className = "invisible";
+
+    }
+    enemigo.src = "img/interrogante.png";
+
     //Si es el final de la partida, también incluimos los contadores de puntos.
+   /* if(jugador.length - 1 !== null && maquina.length - 1 !== null ){
+
+    }*/
     cargarTablero();
 }
 
 function imagenMaquina() {
     let numRand = Math.floor(Math.random() * 5);
+    enemigo.firstElementChild.id = numRand + 1;
+    console.log(enemigo.firstElementChild.id);
     enemigo.firstElementChild.src = imagenes[numRand];
-
 }
 
 function deliverar() {
     document.getElementById("proteccion").className="visible";
     document.getElementById("deliveracion").className="visible";
-    setTimeout(mostrarMensaje,1000);
+    setTimeout(mostrarMensaje,3000);
 }
 
 function mostrarMensaje() {
-    
+    continuar();
 }
 
 function cargarTablero() {
@@ -82,6 +119,7 @@ function allowDrop(ev) {
 
 function drag(ev) {
     ev.dataTransfer.setData("id", this.id);
+    console.log(this);
 }
 
 function drop(ev) {
@@ -90,6 +128,6 @@ function drop(ev) {
     document.getElementById("seleccionado").innerHTML = "";
     this.appendChild(document.getElementById(idElement).cloneNode(true));
     imagenMaquina();
-    deliverar();
+    setTimeout(deliverar, 200);
 }
 /***************************FIN DRAG AND DROP **************************/
