@@ -39,38 +39,10 @@ function mostrarCartasConDorso() {
     }
 }
 
-/*
-function descubrirCarta() {
-    this.removeEventListener("click", descubrirCarta);
-    // Generar un índice aleatorio
-    let aleatorio = Math.floor(Math.random() * cartasGoku.length);
-    console.log("numale"+aleatorio);
-
-    // Verificar si la carta ya se ha revelado dos veces
-    while (cartasReveladas[aleatorio] >= 2) {
-        aleatorio = Math.floor(Math.random() * cartasGoku.length);
-    }
-
-    // Incrementar el contador de la carta revelada
-    cartasReveladas[aleatorio] = (cartasReveladas[aleatorio] || 0) + 1;
-
-    // Actualizar la imagen de la carta
-    this.querySelector("img").src = `./img/db${aleatorio}.jpg`;
-    this.querySelector("img").id = "carta";
-
-    // Si se ha revelado dos veces, remover el event listener
-    if (cartasReveladas[aleatorio] >= 2) {
-        puntuacion.innerText = parseInt(puntuacion.innerText) + 1000;
-    }
-    else {
-        this.querySelector("img").src = "img/dorso.jpg";
-        this.querySelector("img").id = "dorso";
-    }
-}
-*/
-
 let primeraCartaRevelada = null;
 let segundaCartaRevelada = null;
+let imgElement;
+let clicks = 0;
 
 function descubrirCarta() {
     this.removeEventListener("click", descubrirCarta);
@@ -83,17 +55,22 @@ function descubrirCarta() {
 
     cartasReveladas[aleatorio] = (cartasReveladas[aleatorio] || 0) + 1;
 
-    let imgElement = this.querySelector("img");
+    imgElement = this.querySelector("img");
     imgElement.src = `./img/db${aleatorio}.jpg`;
     imgElement.id = "carta";
 
     if (primeraCartaRevelada === null) {
         primeraCartaRevelada = imgElement;
         console.log('Has seleccionado la primera imagen.');
-    } else {
+    } else if (segundaCartaRevelada === null) {
         segundaCartaRevelada = imgElement;
         console.log('Has seleccionado la segunda imagen.');
         compararImagenes();
+    }
+
+    clicks++;
+    if (clicks === 2) {
+        setTimeout(compararImagenes, 1000); // Mostrar la segunda carta antes de comparar
     }
 }
 
@@ -105,12 +82,17 @@ function compararImagenes() {
         }
         else {
             console.log('Las imágenes no coinciden.');
-           /* primeraCartaRevelada.src = "img/dorso.jpg";
-            segundaCartaRevelada.src = "img/dorso.jpg";*/
+            setTimeout(() => { // Restablecer las cartas después de un tiempo
+                primeraCartaRevelada.src = "img/dorso.jpg";
+                segundaCartaRevelada.src = "img/dorso.jpg";
+                clicks = 0; // Reiniciar el contador de clics
+                primeraCartaRevelada = null; // Restablecer las cartas reveladas
+                segundaCartaRevelada = null;
+            }, 1000);
+            this.addEventListener("click", descubrirCarta);
+
         }
-        // Restaurar variables
-       /* primeraCartaRevelada = null;
-        segundaCartaRevelada = null;*/
     }
 }
+
 
