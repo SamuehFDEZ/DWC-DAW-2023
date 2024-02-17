@@ -43,21 +43,16 @@ let primeraCartaRevelada = null;
 let segundaCartaRevelada = null;
 let imgElement;
 let clicks = 0;
-
 function descubrirCarta() {
-    this.removeEventListener("click", descubrirCarta);
+    //this.removeEventListener("click", descubrirCarta);
     let aleatorio = Math.floor(Math.random() * cartasGoku.length);
-
-    // Verificar si la carta ya se ha revelado dos veces
-    while (cartasReveladas[aleatorio] >= 2) {
-        aleatorio = Math.floor(Math.random() * cartasGoku.length);
-    }
 
     cartasReveladas[aleatorio] = (cartasReveladas[aleatorio] || 0) + 1;
 
-    imgElement = this.querySelector("img");
-    imgElement.src = `./img/db${aleatorio}.jpg`;
+    imgElement = this.querySelector("img"); // Usar la referencia
+    imgElement.src = `img/db${aleatorio}.jpg`;
     imgElement.id = "carta";
+
 
     if (primeraCartaRevelada === null) {
         primeraCartaRevelada = imgElement;
@@ -65,12 +60,11 @@ function descubrirCarta() {
     } else if (segundaCartaRevelada === null) {
         segundaCartaRevelada = imgElement;
         console.log('Has seleccionado la segunda imagen.');
-        compararImagenes();
     }
-
     clicks++;
+
     if (clicks === 2) {
-        setTimeout(compararImagenes, 1000); // Mostrar la segunda carta antes de comparar
+        setTimeout(compararImagenes.bind(this), 1000); // Usar bind para mantener el contexto
     }
 }
 
@@ -79,8 +73,7 @@ function compararImagenes() {
         if (primeraCartaRevelada.src === segundaCartaRevelada.src) {
             console.log('¡Las imágenes coinciden!');
             puntuacion.innerText = parseInt(puntuacion.innerText) + 1000;
-        }
-        else {
+        } else {
             console.log('Las imágenes no coinciden.');
             setTimeout(() => { // Restablecer las cartas después de un tiempo
                 primeraCartaRevelada.src = "img/dorso.jpg";
@@ -88,11 +81,16 @@ function compararImagenes() {
                 clicks = 0; // Reiniciar el contador de clics
                 primeraCartaRevelada = null; // Restablecer las cartas reveladas
                 segundaCartaRevelada = null;
+                // Volver a agregar el evento de clic a todas las cartas
+                const cartas = document.querySelectorAll('.carta');
+                cartas.forEach(carta => {
+                    carta.addEventListener("click", descubrirCarta);
+                });
             }, 1000);
-            this.addEventListener("click", descubrirCarta);
-
         }
     }
 }
+
+
 
 
