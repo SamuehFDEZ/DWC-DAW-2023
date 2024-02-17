@@ -70,11 +70,11 @@ function descubrirCarta() {
 */
 
 let primeraCartaRevelada = null;
+let segundaCartaRevelada = null;
 
 function descubrirCarta() {
     this.removeEventListener("click", descubrirCarta);
     let aleatorio = Math.floor(Math.random() * cartasGoku.length);
-    console.log("numale" + aleatorio);
 
     // Verificar si la carta ya se ha revelado dos veces
     while (cartasReveladas[aleatorio] >= 2) {
@@ -83,22 +83,34 @@ function descubrirCarta() {
 
     cartasReveladas[aleatorio] = (cartasReveladas[aleatorio] || 0) + 1;
 
-    this.querySelector("img").src = `./img/db${aleatorio}.jpg`;
-    this.querySelector("img").id = "carta";
+    let imgElement = this.querySelector("img");
+    imgElement.src = `./img/db${aleatorio}.jpg`;
+    imgElement.id = "carta";
 
     if (primeraCartaRevelada === null) {
-        primeraCartaRevelada = aleatorio;
+        primeraCartaRevelada = imgElement;
+        console.log('Has seleccionado la primera imagen.');
     } else {
-        if (primeraCartaRevelada === aleatorio) {
-            puntuacion.innerText = parseInt(puntuacion.innerText) + 1000;
-        } else {
-            this.querySelector("img").src = "img/dorso.jpg";
-            this.querySelector("img").id = "dorso";
-            let cartaAnterior = document.querySelector(`img[src='./img/db${primeraCartaRevelada}.jpg']`);
-            console.log("dadadadadadad"+cartaAnterior);
-            cartaAnterior.src = "img/dorso.jpg";
-            cartaAnterior.id = "dorso";
-        }
-        primeraCartaRevelada = null;
+        segundaCartaRevelada = imgElement;
+        console.log('Has seleccionado la segunda imagen.');
+        compararImagenes();
     }
 }
+
+function compararImagenes() {
+    if (primeraCartaRevelada !== null && segundaCartaRevelada !== null) {
+        if (primeraCartaRevelada.src === segundaCartaRevelada.src) {
+            console.log('¡Las imágenes coinciden!');
+            puntuacion.innerText = parseInt(puntuacion.innerText) + 1000;
+        }
+        else {
+            console.log('Las imágenes no coinciden.');
+           /* primeraCartaRevelada.src = "img/dorso.jpg";
+            segundaCartaRevelada.src = "img/dorso.jpg";*/
+        }
+        // Restaurar variables
+       /* primeraCartaRevelada = null;
+        segundaCartaRevelada = null;*/
+    }
+}
+
