@@ -100,6 +100,7 @@ function mostrarDatosEstado(info){
 
     let fechaFormateada = dia + ' ' + nombreMes + ' ' + anyo;
 
+
     fecha.innerText = fechaFormateada;
     muertos.innerHTML = formatearNumerosConPuntosDeMil(info.death) + " personas "+ `[<span style="color: red;">${porcentajeDeath}%</span>]`;
     incremento0.innerHTML = formatearNumerosConPuntosDeMil(info.deathIncrease) + " personas "+ `[<span style="color: red;">${porcentajeInc0}%</span>]`;

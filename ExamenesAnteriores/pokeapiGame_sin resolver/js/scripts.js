@@ -167,7 +167,7 @@ function comprobarJugada() {
 
 async function turnoDeMaquina() {
     let cartasMaquin = document.querySelectorAll("#machine .carta");
-    let cartaMaquina = elegirCarta(); //cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)];
+    let cartaMaquina = cartasMaquin[Math.floor(Math.random() * cartasMaquin.length)]; //elegirCarta();
     //console.log(machine.children)
     if (cartaMaquina !== undefined){
         cartaMaquina.querySelector("img.dorso").remove();

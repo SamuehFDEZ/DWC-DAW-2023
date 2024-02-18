@@ -167,8 +167,8 @@ async function mostrarDatosUsuario() {
     await crearElemento("Nombre", usuarios[nombrePrimero].name);
     await crearElemento("Edad",  edad + " años");
     await crearElemento("Email", usuarios[nombrePrimero].email);
-    await crearElemento("Ciudad", usuarios[nombrePrimero].address.city); // Puedes cambiar esta parte según tus datos reales
-    await crearElemento("Web", usuarios[nombrePrimero].website); // Puedes cambiar esta parte según tus datos reales
+    await crearElemento("Ciudad", usuarios[nombrePrimero].address.city);
+    await crearElemento("Web", usuarios[nombrePrimero].website);
 
     idUser = usuarios[this.value-1].id;
 
