@@ -43,6 +43,22 @@ async function cargarEquipos() {
     });
 }
 
+/*array_objetos.sort((a, b) => {: Esta es la función de ordenamiento de
+JavaScript que ordenará el array. Se utiliza una función de
+comparación como argumento de sort.
+Esta función toma dos elementos a y b del array y los compara entre sí.
+
+let textA = a[campo]; y let textB = b[campo];:
+Estos pasos extraen el valor del campo especificado (campo) de los
+objetos a y b que se están comparando.
+
+return (textA > textB) ? -1 : (textA < textB) ? 1 : 0;:
+Esta es la lógica de comparación. Se compara textA con textB.
+Si textA es mayor que textB, significa que a debería ir antes que b en la lista ordenada,
+por lo que devuelve -1. Si textA es menor que textB, significa que a debería ir después de b,
+por lo que devuelve 1. Si son iguales, devuelve 0, lo que significa que su orden relativo no importa.
+
+});: Cierra la función de comparación y la función sort.*/
 function ordenarDesc(array_objetos,campo) {
     array_objetos.sort((a, b) => {
         let textA = a[campo];

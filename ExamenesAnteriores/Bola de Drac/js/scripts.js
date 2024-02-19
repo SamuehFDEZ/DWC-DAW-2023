@@ -14,7 +14,7 @@ const cartasGoku = [
 ];
 
 // Variable para contar cuántas veces se ha revelado cada carta
-const cartasReveladas = {};
+const cartasReveladas = [];
 
 window.onload = () =>{
     quitarFondoCartel();
