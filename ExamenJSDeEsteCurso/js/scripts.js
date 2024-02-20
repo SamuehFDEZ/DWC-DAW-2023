@@ -143,7 +143,9 @@ async function cargarAsignaturas(){
     await fetch(todosLosUsuariosConID).then(data => data.json()).then(info =>{
         let div = document.createElement("div");
         div.classList.toggle("asignaturas");
+       /* if (){
 
+        }*/
         div.innerText = info;
         this.appendChild(div);
     });
@@ -158,28 +160,31 @@ let roles = "http://diegogarcia.ddns.net/roles";
 // sus horas y sus respectivos profes
 async function cargarAsign(){
     asignaturas.classList.remove("ocultar");
+    protector.classList.remove("ocultar");
     cerrar.addEventListener("click", () =>{
         asignaturas.classList.add("ocultar");
+        protector.classList.add("ocultar");
 
     });
+
     let todasLasAsignaturas = "http://diegogarcia.ddns.net/asignaturas";
     await fetch(todasLasAsignaturas).then(data => data.json()).then(info =>{
         for (let i = 0; i < info.length; i++) {
-
             let tr = document.createElement("tr");
             tabla.appendChild(tr);
 
             let tdNombre = document.createElement("td");
+            tdNombre.classList.add("celdaas")
             tdNombre.innerHTML = info[i].titulo;
             tr.appendChild(tdNombre);
 
             let tdHoras = document.createElement("td");
-
+            tdHoras.classList.add("celdaho")
             tdHoras.innerHTML = info[i].horas;
             tr.appendChild(tdHoras);
 
             let tdProfesor = document.createElement("td");
-
+            tdProfesor.classList.add("celdapr")
             tdProfesor.innerHTML = info[i].profesor;
             tr.appendChild(tdProfesor);
         }
